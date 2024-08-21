@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34931.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SS SOFTWARE S.N JEWELLERS", "SS SOFTWARE S.N JEWELLERS\SS SOFTWARE S.N JEWELLERS.csproj", "{8BD154D2-C046-4A3A-B498-1AFE4CCBBC47}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SS SOFTWARE S.N JEWELLERS SETUP", "SS SOFTWARE S.N JEWELLERS SETUP\SS SOFTWARE S.N JEWELLERS SETUP.vdproj", "{D6C3FAC0-B824-4E92-83F5-E7CA3B0C1352}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BD154D2-C046-4A3A-B498-1AFE4CCBBC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD154D2-C046-4A3A-B498-1AFE4CCBBC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD154D2-C046-4A3A-B498-1AFE4CCBBC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD154D2-C046-4A3A-B498-1AFE4CCBBC47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C3FAC0-B824-4E92-83F5-E7CA3B0C1352}.Debug|Any CPU.ActiveCfg = Debug
+		{D6C3FAC0-B824-4E92-83F5-E7CA3B0C1352}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1CCAF310-7230-4191-9F3F-2C7555BCCEF1}
+	EndGlobalSection
+EndGlobal
