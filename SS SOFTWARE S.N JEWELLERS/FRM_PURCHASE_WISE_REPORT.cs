@@ -1,13 +1,7 @@
 ﻿using CrystalDecisions.CrystalReports.Engine;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -21,7 +15,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         OleDbDataAdapter ad;
         Connection con = new Connection();
         string query;
-        CRY_PURCHAE_WISE_REPORT cr = new CRY_PURCHAE_WISE_REPORT();
+        ReportDocument cr = new ReportDocument();
 
         public FRM_PURCHASE_WISE_REPORT()
         {
@@ -46,6 +40,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 try
                 {
+                    cr.Load(Application.StartupPath + "/REPORTS/CRY_PURCHAE_WISE_REPORT.rpt");
                     TextObject FromDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblFromDate"];
                     FromDate.Text = txtFromDate.Value.ToString("dd-MM-yyyy");
                     TextObject ToDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblToDate"];

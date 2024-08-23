@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.OleDb;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS

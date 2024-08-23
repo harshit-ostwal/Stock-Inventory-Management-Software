@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -193,8 +186,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             comp.ExitApplication(this, e);
             comp.ShortcutKey(Keys.F1, bunifuButton3, e);
-            comp.ShortcutKey(Keys.F2, bunifuButton2, e);
-            comp.ShortcutKey(Keys.F3, bunifuButton1, e);
+            comp.ShortcutKey(Keys.F2, bunifuButton1, e);
+            comp.ShortcutKey(Keys.F3, bunifuButton2, e);
         }
 
         private void btnExit_Click(object sender, EventArgs e)

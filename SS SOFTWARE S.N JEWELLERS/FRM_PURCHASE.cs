@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using System;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -132,6 +127,16 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void ClearProduct()
         {
             comp.Clear(new Control[] { txtProductName, txtProductId, txtProductCategoryName, txtGodownName, txtBarcode, cmbProductSizeNo, txtProductSizeId, txtPrintingName, txtQuantity });
+            displayProductData();
+            dgwProduct.Hide();
+            btnAdd.Enabled = true;
+            CalculateTotal();
+            barcode = false;
+        }
+
+        private void ClearProduct2()
+        {
+            cmbProductSizeNo.Text = "";
             displayProductData();
             dgwProduct.Hide();
             btnAdd.Enabled = true;
@@ -380,7 +385,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     if (!itemExists)
                     {
                         dt.Rows.Add(txtProductId.Text, txtProductName.Text, categoryId, txtProductCategoryName.Text, godownId, txtGodownName.Text, txtBarcode.Text, txtProductSizeId.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                        ClearProduct();
+                        ClearProduct2();
                     }
 
                     txtProductName.Focus();
@@ -525,7 +530,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (MessageBox.Show("Do You Want To Print Qr Code", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                CRY_BARCODE_PRINTING cr = new CRY_BARCODE_PRINTING();
+                ReportDocument cr = new ReportDocument();
+                cr.Load(Application.StartupPath + "/REPORTS/CRY_BARCODE_PRINTING.rpt");
                 FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Barcode Printing");
                 DataSet ds2 = new DataSet();
                 DataTable dt3 = new DataTable();

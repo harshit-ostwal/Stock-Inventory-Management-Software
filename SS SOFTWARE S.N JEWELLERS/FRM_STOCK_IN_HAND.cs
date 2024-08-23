@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using System;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -19,7 +14,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         readonly string Main = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source =" + Application.StartupPath + "/DATABASE/Main_db.accdb;Jet OLEDB:Database Password=SS9975";
         OleDbDataAdapter ad;
         DataTable dt = new DataTable();
-        CRY_STOCK_IN_HAND cr = new CRY_STOCK_IN_HAND();
+        ReportDocument cr = new ReportDocument();
 
         public FRM_STOCK_IN_HAND()
         {
@@ -56,13 +51,32 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (MessageBox.Show("Do You Want To Load Stock ⏲?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                string query = "SELECT Product_db.f_product_id, Product_db.f_product_name, Product_db.f_product_category_name, Product_db.f_godown_name, Product_Items_db.f_product_size_no, Product_Items_db.f_barcode, Product_Items_db.f_printing_name, Product_Items_db.f_quantity FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id";
+                cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_HAND.rpt");
+                string query = @"
+        SELECT 
+            Product_db.f_product_id, 
+            Product_db.f_product_name, 
+            Product_db.f_product_category_name, 
+            Product_db.f_godown_name, 
+            Product_Items_db.f_product_size_no, 
+            Product_Items_db.f_barcode, 
+            Product_Items_db.f_printing_name, 
+            Product_Items_db.f_quantity 
+        FROM 
+            Product_db 
+      INNER JOIN 
+            Product_Items_db ON Product_db.f_product_id = Product_Items_db.f_product_id";
 
+                // Retrieving search type and search term
                 string searchType = cmbSearchType.SelectedItem?.ToString();
                 string searchTerm = txtSearch.Text.Trim();
 
+                // Append filter based on search type
                 if (!string.IsNullOrEmpty(searchType) && !string.IsNullOrEmpty(searchTerm))
                 {
+                    // Sanitize the search term to prevent SQL injection
+                    searchTerm = searchTerm.Replace("'", "''");
+
                     switch (searchType)
                     {
                         case "Product Name":
@@ -82,13 +96,19 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                             return;
                     }
                 }
-                ad = new OleDbDataAdapter(query, Main);
+
+                // Execute the query
+                OleDbDataAdapter ad = new OleDbDataAdapter(query, Main);
                 ds.Clear();
                 ad.Fill(ds);
+
+                // Clear existing rows in the DataTable before loading new data
                 dt.Rows.Clear();
+
+                // Populate the DataTable with the results
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    dt.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
+                    dt.Rows.Add(row["f_product_id"], row["f_product_name"], row["f_product_category_name"], row["f_godown_name"], row["f_product_size_no"], row["f_barcode"], row["f_printing_name"], row["f_quantity"]);
                 }
                 CalculateTotal();
             }

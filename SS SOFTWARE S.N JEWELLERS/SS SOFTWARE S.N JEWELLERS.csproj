@@ -82,8 +82,9 @@
     <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="EPPlus, Version=7.2.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\EPPlus.7.2.2\lib\net462\EPPlus.dll</HintPath>
+    <Reference Include="EPPlus, Version=7.3.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.7.3.0\lib\net462\EPPlus.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="EPPlus.Interfaces, Version=6.1.1.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.Interfaces.6.1.1\lib\net462\EPPlus.Interfaces.dll</HintPath>
@@ -141,47 +142,23 @@
       <DependentUpon>CRY_BARCODE_PRINTING.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CRY_SALES_WISE_REPORT.cs">
-      <DependentUpon>CRY_SALES_WISE_REPORT.rpt</DependentUpon>
+    <Compile Include="CRY_CUSTOMER_REPORT.cs">
       <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CRY_STOCK_TRANSFER_REPORT.cs">
-      <DependentUpon>CRY_STOCK_TRANSFER_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
+      <DependentUpon>CRY_CUSTOMER_REPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CRY_PURCHAE_WISE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>CRY_PURCHAE_WISE_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CRY_SUPPLIER_REPORT.cs">
-      <DependentUpon>CRY_SUPPLIER_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CRY_PURCHASE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>CRY_PURCHASE_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CRY_CUSTOMER_REPORT.cs">
-      <DependentUpon>CRY_CUSTOMER_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="CRY_STOCK_IN_OUT_REPORT.cs">
-      <DependentUpon>CRY_STOCK_IN_OUT_REPORT.rpt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <SubType>Component</SubType>
-      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="CRY_SALES_REPORT.cs">
       <AutoGen>True</AutoGen>
@@ -189,10 +166,34 @@
       <DependentUpon>CRY_SALES_REPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CRY_SALES_WISE_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRY_SALES_WISE_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CRY_STOCK_IN_HAND.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CRY_STOCK_IN_HAND.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CRY_STOCK_IN_OUT_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRY_STOCK_IN_OUT_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CRY_STOCK_TRANSFER_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRY_STOCK_TRANSFER_REPORT.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CRY_SUPPLIER_REPORT.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CRY_SUPPLIER_REPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="FRM_BARCODE_PRINTING.cs">
@@ -375,41 +376,41 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_BARCODE_PRINTING.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="CRY_SALES_WISE_REPORT.rpt">
+    <EmbeddedResource Include="CRY_CUSTOMER_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRY_SALES_WISE_REPORT.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CRY_STOCK_TRANSFER_REPORT.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRY_STOCK_TRANSFER_REPORT.cs</LastGenOutput>
+      <LastGenOutput>CRY_CUSTOMER_REPORT.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CRY_PURCHAE_WISE_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_PURCHAE_WISE_REPORT.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="CRY_SUPPLIER_REPORT.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRY_SUPPLIER_REPORT.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="CRY_PURCHASE_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_PURCHASE_REPORT.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CRY_CUSTOMER_REPORT.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRY_CUSTOMER_REPORT.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CRY_STOCK_IN_OUT_REPORT.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CRY_STOCK_IN_OUT_REPORT.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CRY_SALES_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_SALES_REPORT.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="CRY_SALES_WISE_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRY_SALES_WISE_REPORT.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="CRY_STOCK_IN_HAND.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_STOCK_IN_HAND.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRY_STOCK_IN_OUT_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRY_STOCK_IN_OUT_REPORT.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRY_STOCK_TRANSFER_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRY_STOCK_TRANSFER_REPORT.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRY_SUPPLIER_REPORT.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRY_SUPPLIER_REPORT.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="FRM_BARCODE_PRINTING.resx">
       <DependentUpon>FRM_BARCODE_PRINTING.cs</DependentUpon>

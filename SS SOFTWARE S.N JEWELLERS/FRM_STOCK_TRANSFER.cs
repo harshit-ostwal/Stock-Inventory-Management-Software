@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -20,6 +14,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         readonly string Main = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source =" + Application.StartupPath + "/DATABASE/Main_db.accdb;Jet OLEDB:Database Password=SS9975";
         string query;
         string validate;
+        DataTable dt2 = new DataTable();
 
         public FRM_STOCK_TRANSFER()
         {
@@ -47,7 +42,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void FRM_STOCK_TRANSFER_Load(object sender, EventArgs e)
         {
             GetGodownData();
-            AutoNumber();
+            AutoNumber(); 
         }
 
         private void AutoNumber()
@@ -103,7 +98,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dgwProduct.Hide();
             dgwItems.Show();
             dt.Clear();
-            isRemoveClicked = false;
             btnAdd.Enabled = true;
             dt2.Clear();
             lblTotalQuantity.Text = "0";
@@ -159,9 +153,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        DataTable dt2 = new DataTable();
-        bool isRemoveClicked = false;
-
         private void btnRemove_Click(object sender, EventArgs e)
         {
             if (dgwItems.SelectedRows.Count == 0) return;
@@ -174,7 +165,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     {
                         dt2.Rows.Add(row.Cells[10].Value.ToString(), row.Cells[6].Value.ToString());
                     }
-                    isRemoveClicked = true;
                 }
                 dgwItems.Rows.RemoveAt(dgwItems.SelectedRows[0].Index);
                 ClearProduct();

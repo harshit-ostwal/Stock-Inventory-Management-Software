@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -65,6 +59,13 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void ClearItems()
         {
             comp.Clear(new Control[] { cmbProductSizeNo, txtBarcode, txtPrintingName, txtQuantity });
+            txtPrintingName.Text = txtProductName.Text;
+            btnAdd.Enabled = true;
+        }
+
+        private void ClearItems2()
+        {
+            comp.Clear(new Control[] { cmbProductSizeNo });
             txtPrintingName.Text = txtProductName.Text;
             btnAdd.Enabled = true;
         }
@@ -360,7 +361,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             bool itemExists = false;
             foreach (DataGridViewRow row in dgwItems.Rows)
             {
-                if (row.Cells[0].Value.ToString() == txtProductId.Text )
+                if (row.Cells[0].Value.ToString() == txtProductId.Text)
                 {
                     double lastQty = double.Parse(row.Cells[3].Value.ToString());
                     double newQty = lastQty + double.Parse(txtQuantity.Text);
@@ -374,7 +375,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 if (!itemExists)
                 {
                     dt.Rows.Add(cmbProductSizeNo.SelectedItem.ToString(), txtBarcode.Text, txtPrintingName.Text, txtQuantity.Text);
-                    ClearItems();
+                    ClearItems2();
                 }
                 cmbProductSizeNo.Focus();
             }

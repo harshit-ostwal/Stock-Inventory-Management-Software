@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -114,7 +107,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void displayData()
         {
             query = "Select ID,f_supplier_id,f_supplier_name,f_gstin,f_mobile_no from Supplier_db Order By ID Desc";
-            string[] headerText = { "ID", "Supplier ID", "Supplier Name", "Gstin","Mobile No" };
+            string[] headerText = { "ID", "Supplier ID", "Supplier Name", "Gstin", "Mobile No" };
             con.GetData(query, dgwDetails, headerText);
             dgwDetails.Show();
         }

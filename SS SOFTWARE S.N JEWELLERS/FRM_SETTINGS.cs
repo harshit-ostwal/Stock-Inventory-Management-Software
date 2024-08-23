@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Data.OleDb;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -15,6 +9,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
     {
 
         Connection con = new Connection();
+        readonly string Main = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source =" + Application.StartupPath + "/DATABASE/Main_db.accdb;Jet OLEDB:Database Password=SS9975";
         Components comp = new Components();
         string query;
 
@@ -271,5 +266,28 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             ValidateTextBoxLength(txtUsername);
         }
 
+        private void btnDeleteAllData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MessageBox.Show("Do You Wanna Delete All Data❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    if (MessageBox.Show("Are You Sure ❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        string[] tables = { "Company_db", "Customer_db", "Supplier_db", "Godown_db", "Product_Category_db", "Product_db", "Product_Items_db", "Product_Size_db", "Purchase_db", "Purchase_Items_db", "Sales_db", "Sales_Items_db", "Stock_Transfer_db", "Stock_Transfer_Items_db" };
+                        foreach (string table in tables)
+                        {
+                            string query = $"Delete From [{table}]";
+                            con.SaveOrEditItems(query);
+                        }
+                        MessageBox.Show("All Data Deleted Successfully👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An Error Occured While Data Deletion?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

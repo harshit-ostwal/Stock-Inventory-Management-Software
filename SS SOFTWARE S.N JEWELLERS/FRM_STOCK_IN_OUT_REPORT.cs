@@ -12,7 +12,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         DataSet ds = new DataSet();
         readonly string Main = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source =" + Application.StartupPath + "/DATABASE/Main_db.accdb;Jet OLEDB:Database Password=SS9975";
         OleDbDataAdapter ad;
-        CRY_STOCK_IN_OUT_REPORT cr = new CRY_STOCK_IN_OUT_REPORT();
+        ReportDocument cr = new ReportDocument();
 
         public FRM_STOCK_IN_OUT_REPORT()
         {
@@ -25,6 +25,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 try
                 {
+                    cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_OUT_REPORT.rpt");
                     TextObject FromDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblFromDate"];
                     FromDate.Text = txtFromDate.Value.ToString("dd-MM-yyyy");
                     TextObject ToDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblToDate"];

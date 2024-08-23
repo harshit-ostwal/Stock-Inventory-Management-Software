@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using System;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -257,7 +252,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            CRY_BARCODE_PRINTING cr = new CRY_BARCODE_PRINTING();
+            ReportDocument cr = new ReportDocument();
+            cr.Load(Application.StartupPath + "/REPORTS/CRY_BARCODE_PRINTING.rpt");
             FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Barcode Printing");
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();

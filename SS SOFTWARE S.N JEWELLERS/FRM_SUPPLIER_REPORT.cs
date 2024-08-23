@@ -14,7 +14,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         OleDbDataAdapter ad;
         Connection con = new Connection();
         string query;
-        CRY_SUPPLIER_REPORT cr = new CRY_SUPPLIER_REPORT();
+        ReportDocument cr = new ReportDocument();
 
         public FRM_SUPPLIER_REPORT()
         {
@@ -27,6 +27,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 try
                 {
+                    cr.Load(Application.StartupPath + "/REPORTS/CRY_SUPPLIER_REPORT.rpt");
                     TextObject FromDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblFromDate"];
                     FromDate.Text = txtFromDate.Value.ToString("dd-MM-yyyy");
                     TextObject ToDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblToDate"];

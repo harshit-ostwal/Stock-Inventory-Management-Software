@@ -1,10 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Windows.Forms;
-using System.Data.OleDb;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using System.Collections.Generic;
+using System;
+using System.Data;
+using System.Data.OleDb;
+using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
 {
@@ -226,8 +225,15 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                             productName.Text = dgwDetails.Rows[i].Cells[1].Value.ToString();
                             CategoryName.Text = dgwDetails.Rows[i].Cells[2].Value.ToString();
                             SizeNo.Text = dgwDetails.Rows[i].Cells[4].Value.ToString();
-                            Barcode = comp.GetBarcode(productName, CategoryName, SizeNo);
-                            dgwDetails.Rows[i].Cells[5].Value = Barcode;
+                            if (dgwDetails.Rows[i].Cells[5].Value.ToString() == string.Empty)
+                            {
+                                Barcode = comp.GetBarcode(productName, CategoryName, SizeNo);
+                                dgwDetails.Rows[i].Cells[5].Value = Barcode;
+                            }
+                            else
+                            {
+                                Barcode = dgwDetails.Rows[i].Cells[5].Value.ToString();
+                            }
                             string printingName = dgwDetails.Rows[i].Cells[6].Value.ToString();
                             if (string.IsNullOrWhiteSpace(printingName))
                             {
