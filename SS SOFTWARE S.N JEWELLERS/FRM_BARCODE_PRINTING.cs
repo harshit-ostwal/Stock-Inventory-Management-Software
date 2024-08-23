@@ -352,6 +352,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void FRM_BARCODE_PRINTING_KeyDown(object sender, KeyEventArgs e)
         {
             comp.Close(this, e);
+            comp.ShortcutKey(Keys.F1, btnNew, e);
+            comp.ShortcutKey(Keys.F2, btnPrint, e);
         }
 
         private void cmbProductSizeNo_SelectedIndexChanged(object sender, EventArgs e)

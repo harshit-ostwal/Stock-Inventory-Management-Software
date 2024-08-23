@@ -33,6 +33,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     return;
                 }
                 report.PrintToPrinter(numberOfCopies, false, 0, 0);
+                MessageBox.Show("Print Successfull! ✅", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception)
             {
