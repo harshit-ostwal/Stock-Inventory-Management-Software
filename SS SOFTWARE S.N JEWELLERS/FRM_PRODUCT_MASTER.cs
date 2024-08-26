@@ -114,11 +114,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
             if (comp.validateControls(textBoxes))
             {
-                string fetchCategoryIdQuery = "Select f_product_category_id from Product_Category_db where f_product_category_name = '" + cmbProductCategoryName.SelectedItem?.ToString() + "'";
+                string fetchCategoryIdQuery = "Select f_product_category_id from Product_Category_db where f_product_category_name = '" + cmbGodownName.Text + "'";
                 string categoryId = con.FetchData(fetchCategoryIdQuery);
                 string fetchGodownIdQuery;
                 string godownId;
-                fetchGodownIdQuery = "Select f_godown_id from Godown_db where f_godown_name = '" + cmbGodownName.SelectedItem?.ToString() + "'";
+                fetchGodownIdQuery = "Select f_godown_id from Godown_db where f_godown_name = '" + cmbGodownName.Text + "'";
                 godownId = con.FetchData(fetchGodownIdQuery);
                 if (btnSave.Text == "F2 Save" && grpProduct.Text == "Create")
                 {
