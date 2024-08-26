@@ -67,29 +67,26 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
       INNER JOIN 
             Product_Items_db ON Product_db.f_product_id = Product_Items_db.f_product_id";
 
-                // Retrieving search type and search term
                 string searchType = cmbSearchType.SelectedItem?.ToString();
                 string searchTerm = txtSearch.Text.Trim();
 
-                // Append filter based on search type
                 if (!string.IsNullOrEmpty(searchType) && !string.IsNullOrEmpty(searchTerm))
                 {
-                    // Sanitize the search term to prevent SQL injection
                     searchTerm = searchTerm.Replace("'", "''");
 
                     switch (searchType)
                     {
                         case "Product Name":
-                            query += " AND Product_db.f_product_name LIKE '%" + searchTerm + "%'";
+                            query += " Where Product_db.f_product_name LIKE '%" + searchTerm + "%'";
                             break;
                         case "Category Name":
-                            query += " AND Product_db.f_product_category_name LIKE '%" + searchTerm + "%'";
+                            query += " Where Product_db.f_product_category_name LIKE '%" + searchTerm + "%'";
                             break;
                         case "Godown Name":
-                            query += " AND Product_db.f_godown_name LIKE '%" + searchTerm + "%'";
+                            query += " Where Product_db.f_godown_name LIKE '%" + searchTerm + "%'";
                             break;
                         case "Product Size No":
-                            query += " AND Product_Items_db.f_product_size_no LIKE '%" + searchTerm + "%'";
+                            query += " Where Product_Items_db.f_product_size_no LIKE '%" + searchTerm + "%'";
                             break;
                         default:
                             MessageBox.Show("Please select a valid search type.", "Invalid Search Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -97,15 +94,12 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     }
                 }
 
-                // Execute the query
                 OleDbDataAdapter ad = new OleDbDataAdapter(query, Main);
                 ds.Clear();
                 ad.Fill(ds);
 
-                // Clear existing rows in the DataTable before loading new data
                 dt.Rows.Clear();
 
-                // Populate the DataTable with the results
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
                     dt.Rows.Add(row["f_product_id"], row["f_product_name"], row["f_product_category_name"], row["f_godown_name"], row["f_product_size_no"], row["f_barcode"], row["f_printing_name"], row["f_quantity"]);
@@ -170,6 +164,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void FRM_STOCK_IN_HAND_KeyDown(object sender, KeyEventArgs e)
         {
             comp.Close(this, e);
+        }
+
+        private void EnterKEY(object sender, KeyEventArgs e)
+        {
+            comp.Enter(sender, e);
         }
     }
 }

@@ -146,7 +146,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 if (comp.getDgwToTextBox(dgwCustomer, new Control[] { txtCustomerId, txtCustomerName, txtArea, txtMobileNo }))
                 {
-                    txtProductName.Focus();
+                    txtBarcode.Focus();
                     displayProductData();
                     dgwCustomer.Hide();
                 }
@@ -165,7 +165,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (comp.getDgwToTextBox(dgwCustomer, new Control[] { txtCustomerId, txtCustomerName, txtArea, txtMobileNo }))
             {
-                txtProductName.Focus();
+                txtBarcode.Focus();
                 dgwCustomer.Hide();
                 displayProductData();
             }
@@ -193,31 +193,42 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 if (barcode)
                 {
-                    query = "select f_product_category_id from Product_Category_db where f_product_category_name='" + dgwProduct.SelectedRows[i].Cells[2].Value + "'";
-                    string categoryId = con.FetchData(query);
-                    query = "select f_godown_id from Godown_db where f_godown_name='" + dgwProduct.SelectedRows[i].Cells[3].Value + "'";
-                    string godownId = con.FetchData(query);
-                    bool itemExists = false;
-                    foreach (DataGridViewRow row in dgwItems.Rows)
+                    query = "select f_quantity from Product_Items_db where f_barcode='" + dgwProduct.SelectedRows[i].Cells[4].Value + "' And f_product_id ='" + dgwProduct.SelectedRows[i].Cells[0].Value + "' And f_product_size_no='" + dgwProduct.SelectedRows[i].Cells[6].Value + "'";
+                    int qty = Convert.ToInt32(con.FetchData(query));
+                    if (qty > 1)
                     {
-                        if (row.Cells[0].Value.ToString() == dgwProduct.SelectedRows[i].Cells[0].Value.ToString() && row.Cells[8].Value.ToString() == dgwProduct.SelectedRows[i].Cells[6].Value.ToString())
+                        query = "select f_product_category_id from Product_Category_db where f_product_category_name='" + dgwProduct.SelectedRows[i].Cells[2].Value + "'";
+                        string categoryId = con.FetchData(query);
+                        query = "select f_godown_id from Godown_db where f_godown_name='" + dgwProduct.SelectedRows[i].Cells[3].Value + "'";
+                        string godownId = con.FetchData(query);
+                        bool itemExists = false;
+                        foreach (DataGridViewRow row in dgwItems.Rows)
                         {
-                            double lastQty = double.Parse(row.Cells[10].Value.ToString());
-                            double newQty = lastQty + double.Parse(txtQuantity.Text);
-                            row.Cells[10].Value = newQty.ToString();
-                            itemExists = true;
-                            ClearProduct();
-                            break;
+                            if (row.Cells[0].Value.ToString() == dgwProduct.SelectedRows[i].Cells[0].Value.ToString() && row.Cells[8].Value.ToString() == dgwProduct.SelectedRows[i].Cells[6].Value.ToString())
+                            {
+                                double lastQty = double.Parse(row.Cells[10].Value.ToString());
+                                double newQty = lastQty + double.Parse(txtQuantity.Text);
+                                row.Cells[10].Value = newQty.ToString();
+                                itemExists = true;
+                                ClearProduct();
+                                break;
+                            }
+                            else
+                            {
+                                itemExists = false;
+                            }
                         }
-                        else
+
+                        if (itemExists == false)
                         {
-                            itemExists = false;
+                            dt.Rows.Add(dgwProduct.SelectedRows[i].Cells[0].Value.ToString(), dgwProduct.SelectedRows[i].Cells[1].Value.ToString(), categoryId, dgwProduct.SelectedRows[i].Cells[2].Value.ToString(), godownId, dgwProduct.SelectedRows[i].Cells[3].Value.ToString(), dgwProduct.SelectedRows[i].Cells[4].Value.ToString(), dgwProduct.SelectedRows[i].Cells[5].Value.ToString(), dgwProduct.SelectedRows[i].Cells[6].Value.ToString(), dgwProduct.SelectedRows[i].Cells[7].Value.ToString(), 1);
+                            ClearProduct();
                         }
                     }
-
-                    if (itemExists == false)
+                    else
                     {
-                        dt.Rows.Add(dgwProduct.SelectedRows[i].Cells[0].Value.ToString(), dgwProduct.SelectedRows[i].Cells[1].Value.ToString(), categoryId, dgwProduct.SelectedRows[i].Cells[2].Value.ToString(), godownId, dgwProduct.SelectedRows[i].Cells[3].Value.ToString(), dgwProduct.SelectedRows[i].Cells[4].Value.ToString(), dgwProduct.SelectedRows[i].Cells[5].Value.ToString(), dgwProduct.SelectedRows[i].Cells[6].Value.ToString(), dgwProduct.SelectedRows[i].Cells[7].Value.ToString(), 1);
+                        MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        dgwProduct.Hide();
                         ClearProduct();
                     }
                 }
@@ -371,45 +382,56 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             string categoryId = con.FetchData(query);
             query = "select f_godown_id from Godown_db where f_godown_name='" + txtGodownName.Text + "'";
             string godownId = con.FetchData(query);
-            Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
-            if (comp.validateControls(textBoxes))
+            query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_id='" + txtProductSizeId.Text + "'";
+            int qty = Convert.ToInt32(con.FetchData(query));
+            if (qty > 1)
             {
-                bool itemExists = false;
-                foreach (DataGridViewRow row in dgwItems.Rows)
+                Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
+                if (comp.validateControls(textBoxes))
                 {
-                    if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[8].Value.ToString() == cmbProductSizeNo.Text)
+                    bool itemExists = false;
+                    foreach (DataGridViewRow row in dgwItems.Rows)
                     {
-                        double lastQty = double.Parse(row.Cells[10].Value.ToString());
-                        double newQty = lastQty + double.Parse(txtQuantity.Text);
-                        row.Cells[10].Value = newQty.ToString();
-                        itemExists = true;
-                        ClearProduct();
-                        break;
+                        if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[8].Value.ToString() == cmbProductSizeNo.Text)
+                        {
+                            double lastQty = double.Parse(row.Cells[10].Value.ToString());
+                            double newQty = lastQty + double.Parse(txtQuantity.Text);
+                            row.Cells[10].Value = newQty.ToString();
+                            itemExists = true;
+                            ClearProduct();
+                            break;
+                        }
                     }
-                }
-                if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    if (!itemExists)
+                    if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        dt.Rows.Add(txtProductId.Text, txtProductName.Text, categoryId, txtProductCategoryName.Text, godownId, txtGodownName.Text, txtBarcode.Text, txtProductSizeId.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                        ClearProduct();
-                    }
+                        if (!itemExists)
+                        {
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, categoryId, txtProductCategoryName.Text, godownId, txtGodownName.Text, txtBarcode.Text, txtProductSizeId.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
 
-                    txtProductName.Focus();
+                        txtProductName.Focus();
+                    }
+                    else
+                    {
+                        if (!itemExists)
+                        {
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, categoryId, txtProductCategoryName.Text, godownId, txtGodownName.Text, txtBarcode.Text, txtProductSizeId.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
+                        btnSave.Focus();
+                    }
                 }
                 else
                 {
-                    if (!itemExists)
-                    {
-                        dt.Rows.Add(txtProductId.Text, txtProductName.Text, categoryId, txtProductCategoryName.Text, godownId, txtGodownName.Text, txtBarcode.Text, txtProductSizeId.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                        ClearProduct();
-                    }
                     btnSave.Focus();
                 }
             }
             else
             {
-                btnSave.Focus();
+                MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgwProduct.Hide();
+                ClearProduct();
             }
         }
 

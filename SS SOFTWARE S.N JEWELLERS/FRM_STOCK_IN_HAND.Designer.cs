@@ -127,7 +127,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.panel1.Location = new System.Drawing.Point(46, 68);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(912, 76);
-            this.panel1.TabIndex = 22;
+            this.panel1.TabIndex = 1;
             // 
             // txtSearch
             // 
@@ -139,7 +139,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(234, 26);
-            this.txtSearch.TabIndex = 61;
+            this.txtSearch.TabIndex = 2;
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EnterKEY);
             // 
             // btnShowAllStock
             // 
@@ -327,7 +328,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             stateProperties6.IconRightImage = null;
             this.btnView.OnPressedState = stateProperties6;
             this.btnView.Size = new System.Drawing.Size(114, 45);
-            this.btnView.TabIndex = 58;
+            this.btnView.TabIndex = 3;
             this.btnView.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnView.TextMarginLeft = 0;
             this.btnView.UseDefaultRadiusAndThickness = true;
@@ -363,7 +364,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.cmbSearchType.Location = new System.Drawing.Point(16, 34);
             this.cmbSearchType.Name = "cmbSearchType";
             this.cmbSearchType.Size = new System.Drawing.Size(234, 27);
-            this.cmbSearchType.TabIndex = 55;
+            this.cmbSearchType.TabIndex = 1;
+            this.cmbSearchType.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EnterKEY);
             // 
             // label2
             // 
