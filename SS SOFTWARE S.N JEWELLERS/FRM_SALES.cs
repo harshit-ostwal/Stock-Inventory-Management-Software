@@ -711,7 +711,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void txtBarcode_Leave(object sender, EventArgs e)
         {
-            query = "Select Product_db.f_product_id,Product_db.f_product_name,Product_db.f_product_category_id,Product_db.f_product_category_name,Product_db.f_godown_id,Product_db.f_godown_name,Product_Items_db.f_barcode,Product_Items_db.f_product_size_id, Product_Items_db.f_product_size_no,Product_Items_db.f_printing_name FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id Where Product_Items_db.f_barcode='" + txtBarcode.Text + "'";
+            query = "Select Product_db.f_product_id,Product_db.f_product_name,Product_db.f_product_category_id,Product_db.f_product_category_name,Product_db.f_godown_id,Product_db.f_godown_name,Product_Items_db.f_barcode,Product_Items_db.f_product_size_id, Product_Items_db.f_product_size_no,Product_Items_db.f_printing_name,Product_Items_db.f_quantity FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id Where Product_Items_db.f_barcode='" + txtBarcode.Text + "'";
             getDetails(txtBarcode, query);
         }
 
@@ -721,45 +721,54 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             try
             {
-                if (txtBox.Text != string.Empty)
+                if (txtBox.Text != string.Empty && txtProductName.Text == String.Empty)
                 {
                     DataSet d2s = new DataSet();
                     OleDbDataAdapter ad = new OleDbDataAdapter(queryDetails, Main);
                     ad.Fill(d2s);
                     DataRow row = d2s.Tables[0].Rows[0];
                     bool itemExists = false;
-                    foreach (DataGridViewRow row2 in dgwItems.Rows)
+                    if (Convert.ToInt32(row[10].ToString()) > 1)
                     {
-                        if (row2.Cells[0].Value.ToString() == row[0].ToString() && row2.Cells[8].Value.ToString() == row[8].ToString() && d2s.Tables[0].Rows.Count == 1)
+                        foreach (DataGridViewRow row2 in dgwItems.Rows)
                         {
-                            double lastQty = double.Parse(row2.Cells[10].Value.ToString());
-                            double newQty = lastQty + 1;
-                            row2.Cells[10].Value = newQty.ToString();
-                            itemExists = true;
-                            ClearProduct();
-                            break;
-                        }
-                        else
-                        {
-                            itemExists = false;
-                        }
+                            if (row2.Cells[0].Value.ToString() == row[0].ToString() && row2.Cells[8].Value.ToString() == row[8].ToString() && d2s.Tables[0].Rows.Count == 1)
+                            {
+                                double lastQty = double.Parse(row2.Cells[10].Value.ToString());
+                                double newQty = lastQty + 1;
+                                row2.Cells[10].Value = newQty.ToString();
+                                itemExists = true;
+                                ClearProduct();
+                                break;
+                            }
+                            else
+                            {
+                                itemExists = false;
+                            }
 
+                        }
+                        if (d2s.Tables[0].Rows.Count == 1 && itemExists == false)
+                        {
+                            dt.Rows.Add(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[6].ToString(), row[7].ToString(), row[8].ToString(), row[9].ToString(), 1);
+                            txtBarcode.Focus();
+                            ClearProduct();
+                            dgwProduct.Hide();
+                        }
+                        if (d2s.Tables[0].Rows.Count > 1 && itemExists == false)
+                        {
+                            dgwProduct.Show();
+                            query = "Select Product_db.f_product_id,Product_db.f_product_name,Product_db.f_product_category_name,Product_db.f_godown_name,Product_Items_db.f_barcode,Product_Items_db.f_product_size_id,Product_Items_db.f_product_size_no,Product_Items_db.f_printing_name FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id Where Product_Items_db.f_barcode='" + txtBarcode.Text + "'";
+                            string[] headerText = { "Product ID", "Product Name", "Category Name", "Godown Name", "Barcode", "Product Size ID", "Product Size No", "Printing Name" };
+                            con.GetData(query, dgwProduct, headerText);
+                            dgwProduct.Focus();
+                            barcode = true;
+                        }
                     }
-                    if (d2s.Tables[0].Rows.Count == 1 && itemExists == false)
+                    else
                     {
-                        dt.Rows.Add(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[6].ToString(), row[7].ToString(), row[8].ToString(), row[9].ToString(), 1);
-                        txtBarcode.Focus();
-                        ClearProduct();
+                        MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         dgwProduct.Hide();
-                    }
-                    if (d2s.Tables[0].Rows.Count > 1 && itemExists == false)
-                    {
-                        dgwProduct.Show();
-                        query = "Select Product_db.f_product_id,Product_db.f_product_name,Product_db.f_product_category_name,Product_db.f_godown_name,Product_Items_db.f_barcode,Product_Items_db.f_product_size_id,Product_Items_db.f_product_size_no,Product_Items_db.f_printing_name FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id Where Product_Items_db.f_barcode='" + txtBarcode.Text + "'";
-                        string[] headerText = { "Product ID", "Product Name", "Category Name", "Godown Name", "Barcode", "Product Size ID", "Product Size No", "Printing Name" };
-                        con.GetData(query, dgwProduct, headerText);
-                        dgwProduct.Focus();
-                        barcode = true;
+                        ClearProduct();
                     }
                 }
             }

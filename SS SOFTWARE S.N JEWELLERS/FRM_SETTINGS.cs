@@ -281,6 +281,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                             con.SaveOrEditItems(query);
                         }
                         MessageBox.Show("All Data Deleted Successfully👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Application.Exit();
                     }
                 }
             }

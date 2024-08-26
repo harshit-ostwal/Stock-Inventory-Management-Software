@@ -113,6 +113,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnShowAllStock_Click(object sender, EventArgs e)
         {
+            cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_HAND.rpt");
             ClearAll();
             if (MessageBox.Show("Do You Want To Load All Stock ⏲?\n It Might Take A Bit Of Time To Load All The Records. ⏳", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
