@@ -39,7 +39,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             AutoNumber();
             displaySupplierData();
-            displayProductData();
         }
 
         private void ClearAll()
@@ -274,8 +273,15 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             try
             {
-                dgwProduct.Show();
-                (dgwProduct.DataSource as DataTable).DefaultView.RowFilter = string.Format("f_product_name LIKE '%{0}%'", txtProductName.Text);
+                if (txtCustomerName.Text != string.Empty)
+                {
+                    dgwProduct.Show();
+                    (dgwProduct.DataSource as DataTable).DefaultView.RowFilter = string.Format("f_product_name LIKE '%{0}%'", txtProductName.Text);
+                }
+                else
+                {
+                    txtCustomerName.Focus();
+                }
             }
             catch
             {

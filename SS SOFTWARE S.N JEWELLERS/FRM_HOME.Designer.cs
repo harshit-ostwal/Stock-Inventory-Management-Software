@@ -94,6 +94,12 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges21 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties41 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties42 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges22 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties43 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties44 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges23 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties45 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties46 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges24 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties47 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties48 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
@@ -130,12 +136,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges35 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties69 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties70 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges23 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties45 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties46 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges22 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties43 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties stateProperties44 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.StateProperties();
             this.pnlSidebar = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.btnImportExport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
@@ -170,6 +170,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.pnlRecords = new System.Windows.Forms.Panel();
             this.btnStockInHand = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.pnlReports = new System.Windows.Forms.Panel();
+            this.btnSalesWiseReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
+            this.btnPurchaseWiseReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnStockTransferReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnSupplierReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnCustomerReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
@@ -192,8 +194,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.btnSupplierImportExport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnCustomerImportExport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnProductImportExport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            this.btnPurchaseWiseReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            this.btnSalesWiseReport = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.pnlSidebar.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -225,6 +225,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             // 
             // panel4
             // 
+            this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.panel4.Controls.Add(this.btnImportExport);
             this.panel4.Controls.Add(this.btnRecords);
             this.panel4.Controls.Add(this.btnExit);
@@ -904,6 +905,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             // 
             // panel3
             // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.panel3.Controls.Add(this.lblEmail);
             this.panel3.Controls.Add(this.lblCompanyName);
             this.panel3.Controls.Add(this.picAvatar);
@@ -942,6 +944,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             // 
             // panel2
             // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.panel2.Controls.Add(this.pictureBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
@@ -1741,6 +1744,138 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.pnlReports.Size = new System.Drawing.Size(250, 331);
             this.pnlReports.TabIndex = 21;
             this.pnlReports.Visible = false;
+            // 
+            // btnSalesWiseReport
+            // 
+            this.btnSalesWiseReport.AllowToggling = false;
+            this.btnSalesWiseReport.AnimationSpeed = 1;
+            this.btnSalesWiseReport.AutoGenerateColors = false;
+            this.btnSalesWiseReport.BackColor = System.Drawing.Color.Transparent;
+            this.btnSalesWiseReport.BackColor1 = System.Drawing.Color.Empty;
+            this.btnSalesWiseReport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSalesWiseReport.BackgroundImage")));
+            this.btnSalesWiseReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSalesWiseReport.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            this.btnSalesWiseReport.ButtonText = "Sales Wise Report";
+            this.btnSalesWiseReport.ButtonTextMarginLeft = 0;
+            this.btnSalesWiseReport.ColorContrastOnClick = 100;
+            this.btnSalesWiseReport.ColorContrastOnHover = 100;
+            this.btnSalesWiseReport.Cursor = System.Windows.Forms.Cursors.Hand;
+            borderEdges22.BottomLeft = true;
+            borderEdges22.BottomRight = true;
+            borderEdges22.TopLeft = true;
+            borderEdges22.TopRight = true;
+            this.btnSalesWiseReport.CustomizableEdges = borderEdges22;
+            this.btnSalesWiseReport.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.btnSalesWiseReport.DisabledBorderColor = System.Drawing.Color.Empty;
+            this.btnSalesWiseReport.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this.btnSalesWiseReport.DisabledForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(160)))), ((int)(((byte)(168)))));
+            this.btnSalesWiseReport.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Idle;
+            this.btnSalesWiseReport.Font = new System.Drawing.Font("Gilroy", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSalesWiseReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            this.btnSalesWiseReport.IconLeftCursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSalesWiseReport.IconMarginLeft = 11;
+            this.btnSalesWiseReport.IconPadding = 10;
+            this.btnSalesWiseReport.IconRightCursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSalesWiseReport.IdleBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(73)))), ((int)(((byte)(73)))));
+            this.btnSalesWiseReport.IdleBorderRadius = 10;
+            this.btnSalesWiseReport.IdleBorderThickness = 1;
+            this.btnSalesWiseReport.IdleFillColor = System.Drawing.Color.Empty;
+            this.btnSalesWiseReport.IdleIconLeftImage = ((System.Drawing.Image)(resources.GetObject("btnSalesWiseReport.IdleIconLeftImage")));
+            this.btnSalesWiseReport.IdleIconRightImage = null;
+            this.btnSalesWiseReport.IndicateFocus = true;
+            this.btnSalesWiseReport.Location = new System.Drawing.Point(1, 125);
+            this.btnSalesWiseReport.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.btnSalesWiseReport.Name = "btnSalesWiseReport";
+            stateProperties43.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            stateProperties43.BorderRadius = 10;
+            stateProperties43.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            stateProperties43.BorderThickness = 1;
+            stateProperties43.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            stateProperties43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            stateProperties43.IconLeftImage = null;
+            stateProperties43.IconRightImage = null;
+            this.btnSalesWiseReport.onHoverState = stateProperties43;
+            stateProperties44.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            stateProperties44.BorderRadius = 10;
+            stateProperties44.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            stateProperties44.BorderThickness = 1;
+            stateProperties44.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(53)))), ((int)(((byte)(53)))));
+            stateProperties44.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            stateProperties44.IconLeftImage = null;
+            stateProperties44.IconRightImage = null;
+            this.btnSalesWiseReport.OnPressedState = stateProperties44;
+            this.btnSalesWiseReport.Size = new System.Drawing.Size(248, 40);
+            this.btnSalesWiseReport.TabIndex = 23;
+            this.btnSalesWiseReport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnSalesWiseReport.TextMarginLeft = 0;
+            this.btnSalesWiseReport.UseDefaultRadiusAndThickness = true;
+            this.btnSalesWiseReport.Click += new System.EventHandler(this.btnSalesWiseReport_Click);
+            // 
+            // btnPurchaseWiseReport
+            // 
+            this.btnPurchaseWiseReport.AllowToggling = false;
+            this.btnPurchaseWiseReport.AnimationSpeed = 1;
+            this.btnPurchaseWiseReport.AutoGenerateColors = false;
+            this.btnPurchaseWiseReport.BackColor = System.Drawing.Color.Transparent;
+            this.btnPurchaseWiseReport.BackColor1 = System.Drawing.Color.Empty;
+            this.btnPurchaseWiseReport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPurchaseWiseReport.BackgroundImage")));
+            this.btnPurchaseWiseReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnPurchaseWiseReport.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            this.btnPurchaseWiseReport.ButtonText = "Purchase Wise Report";
+            this.btnPurchaseWiseReport.ButtonTextMarginLeft = 0;
+            this.btnPurchaseWiseReport.ColorContrastOnClick = 100;
+            this.btnPurchaseWiseReport.ColorContrastOnHover = 100;
+            this.btnPurchaseWiseReport.Cursor = System.Windows.Forms.Cursors.Hand;
+            borderEdges23.BottomLeft = true;
+            borderEdges23.BottomRight = true;
+            borderEdges23.TopLeft = true;
+            borderEdges23.TopRight = true;
+            this.btnPurchaseWiseReport.CustomizableEdges = borderEdges23;
+            this.btnPurchaseWiseReport.DialogResult = System.Windows.Forms.DialogResult.None;
+            this.btnPurchaseWiseReport.DisabledBorderColor = System.Drawing.Color.Empty;
+            this.btnPurchaseWiseReport.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
+            this.btnPurchaseWiseReport.DisabledForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(160)))), ((int)(((byte)(168)))));
+            this.btnPurchaseWiseReport.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Idle;
+            this.btnPurchaseWiseReport.Font = new System.Drawing.Font("Gilroy", 10F, System.Drawing.FontStyle.Bold);
+            this.btnPurchaseWiseReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            this.btnPurchaseWiseReport.IconLeftCursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPurchaseWiseReport.IconMarginLeft = 11;
+            this.btnPurchaseWiseReport.IconPadding = 10;
+            this.btnPurchaseWiseReport.IconRightCursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPurchaseWiseReport.IdleBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(73)))), ((int)(((byte)(73)))));
+            this.btnPurchaseWiseReport.IdleBorderRadius = 10;
+            this.btnPurchaseWiseReport.IdleBorderThickness = 1;
+            this.btnPurchaseWiseReport.IdleFillColor = System.Drawing.Color.Empty;
+            this.btnPurchaseWiseReport.IdleIconLeftImage = ((System.Drawing.Image)(resources.GetObject("btnPurchaseWiseReport.IdleIconLeftImage")));
+            this.btnPurchaseWiseReport.IdleIconRightImage = null;
+            this.btnPurchaseWiseReport.IndicateFocus = true;
+            this.btnPurchaseWiseReport.Location = new System.Drawing.Point(1, 84);
+            this.btnPurchaseWiseReport.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.btnPurchaseWiseReport.Name = "btnPurchaseWiseReport";
+            stateProperties45.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            stateProperties45.BorderRadius = 10;
+            stateProperties45.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            stateProperties45.BorderThickness = 1;
+            stateProperties45.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
+            stateProperties45.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            stateProperties45.IconLeftImage = null;
+            stateProperties45.IconRightImage = null;
+            this.btnPurchaseWiseReport.onHoverState = stateProperties45;
+            stateProperties46.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            stateProperties46.BorderRadius = 10;
+            stateProperties46.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            stateProperties46.BorderThickness = 1;
+            stateProperties46.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(53)))), ((int)(((byte)(53)))));
+            stateProperties46.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            stateProperties46.IconLeftImage = null;
+            stateProperties46.IconRightImage = null;
+            this.btnPurchaseWiseReport.OnPressedState = stateProperties46;
+            this.btnPurchaseWiseReport.Size = new System.Drawing.Size(248, 40);
+            this.btnPurchaseWiseReport.TabIndex = 22;
+            this.btnPurchaseWiseReport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnPurchaseWiseReport.TextMarginLeft = 0;
+            this.btnPurchaseWiseReport.UseDefaultRadiusAndThickness = true;
+            this.btnPurchaseWiseReport.Click += new System.EventHandler(this.btnPurchaseWiseReport_Click);
             // 
             // btnStockTransferReport
             // 
@@ -2681,138 +2816,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.btnProductImportExport.TextMarginLeft = 0;
             this.btnProductImportExport.UseDefaultRadiusAndThickness = true;
             this.btnProductImportExport.Click += new System.EventHandler(this.btnProductImportExport_Click);
-            // 
-            // btnPurchaseWiseReport
-            // 
-            this.btnPurchaseWiseReport.AllowToggling = false;
-            this.btnPurchaseWiseReport.AnimationSpeed = 1;
-            this.btnPurchaseWiseReport.AutoGenerateColors = false;
-            this.btnPurchaseWiseReport.BackColor = System.Drawing.Color.Transparent;
-            this.btnPurchaseWiseReport.BackColor1 = System.Drawing.Color.Empty;
-            this.btnPurchaseWiseReport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnPurchaseWiseReport.BackgroundImage")));
-            this.btnPurchaseWiseReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnPurchaseWiseReport.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            this.btnPurchaseWiseReport.ButtonText = "Purchase Wise Report";
-            this.btnPurchaseWiseReport.ButtonTextMarginLeft = 0;
-            this.btnPurchaseWiseReport.ColorContrastOnClick = 100;
-            this.btnPurchaseWiseReport.ColorContrastOnHover = 100;
-            this.btnPurchaseWiseReport.Cursor = System.Windows.Forms.Cursors.Hand;
-            borderEdges23.BottomLeft = true;
-            borderEdges23.BottomRight = true;
-            borderEdges23.TopLeft = true;
-            borderEdges23.TopRight = true;
-            this.btnPurchaseWiseReport.CustomizableEdges = borderEdges23;
-            this.btnPurchaseWiseReport.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.btnPurchaseWiseReport.DisabledBorderColor = System.Drawing.Color.Empty;
-            this.btnPurchaseWiseReport.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.btnPurchaseWiseReport.DisabledForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(160)))), ((int)(((byte)(168)))));
-            this.btnPurchaseWiseReport.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Idle;
-            this.btnPurchaseWiseReport.Font = new System.Drawing.Font("Gilroy", 10F, System.Drawing.FontStyle.Bold);
-            this.btnPurchaseWiseReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.btnPurchaseWiseReport.IconLeftCursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPurchaseWiseReport.IconMarginLeft = 11;
-            this.btnPurchaseWiseReport.IconPadding = 10;
-            this.btnPurchaseWiseReport.IconRightCursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPurchaseWiseReport.IdleBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(73)))), ((int)(((byte)(73)))));
-            this.btnPurchaseWiseReport.IdleBorderRadius = 10;
-            this.btnPurchaseWiseReport.IdleBorderThickness = 1;
-            this.btnPurchaseWiseReport.IdleFillColor = System.Drawing.Color.Empty;
-            this.btnPurchaseWiseReport.IdleIconLeftImage = ((System.Drawing.Image)(resources.GetObject("btnPurchaseWiseReport.IdleIconLeftImage")));
-            this.btnPurchaseWiseReport.IdleIconRightImage = null;
-            this.btnPurchaseWiseReport.IndicateFocus = true;
-            this.btnPurchaseWiseReport.Location = new System.Drawing.Point(1, 84);
-            this.btnPurchaseWiseReport.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.btnPurchaseWiseReport.Name = "btnPurchaseWiseReport";
-            stateProperties45.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            stateProperties45.BorderRadius = 10;
-            stateProperties45.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            stateProperties45.BorderThickness = 1;
-            stateProperties45.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
-            stateProperties45.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            stateProperties45.IconLeftImage = null;
-            stateProperties45.IconRightImage = null;
-            this.btnPurchaseWiseReport.onHoverState = stateProperties45;
-            stateProperties46.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            stateProperties46.BorderRadius = 10;
-            stateProperties46.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            stateProperties46.BorderThickness = 1;
-            stateProperties46.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(53)))), ((int)(((byte)(53)))));
-            stateProperties46.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            stateProperties46.IconLeftImage = null;
-            stateProperties46.IconRightImage = null;
-            this.btnPurchaseWiseReport.OnPressedState = stateProperties46;
-            this.btnPurchaseWiseReport.Size = new System.Drawing.Size(248, 40);
-            this.btnPurchaseWiseReport.TabIndex = 22;
-            this.btnPurchaseWiseReport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnPurchaseWiseReport.TextMarginLeft = 0;
-            this.btnPurchaseWiseReport.UseDefaultRadiusAndThickness = true;
-            this.btnPurchaseWiseReport.Click += new System.EventHandler(this.btnPurchaseWiseReport_Click);
-            // 
-            // btnSalesWiseReport
-            // 
-            this.btnSalesWiseReport.AllowToggling = false;
-            this.btnSalesWiseReport.AnimationSpeed = 1;
-            this.btnSalesWiseReport.AutoGenerateColors = false;
-            this.btnSalesWiseReport.BackColor = System.Drawing.Color.Transparent;
-            this.btnSalesWiseReport.BackColor1 = System.Drawing.Color.Empty;
-            this.btnSalesWiseReport.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSalesWiseReport.BackgroundImage")));
-            this.btnSalesWiseReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSalesWiseReport.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            this.btnSalesWiseReport.ButtonText = "Sales Wise Report";
-            this.btnSalesWiseReport.ButtonTextMarginLeft = 0;
-            this.btnSalesWiseReport.ColorContrastOnClick = 100;
-            this.btnSalesWiseReport.ColorContrastOnHover = 100;
-            this.btnSalesWiseReport.Cursor = System.Windows.Forms.Cursors.Hand;
-            borderEdges22.BottomLeft = true;
-            borderEdges22.BottomRight = true;
-            borderEdges22.TopLeft = true;
-            borderEdges22.TopRight = true;
-            this.btnSalesWiseReport.CustomizableEdges = borderEdges22;
-            this.btnSalesWiseReport.DialogResult = System.Windows.Forms.DialogResult.None;
-            this.btnSalesWiseReport.DisabledBorderColor = System.Drawing.Color.Empty;
-            this.btnSalesWiseReport.DisabledFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(204)))));
-            this.btnSalesWiseReport.DisabledForecolor = System.Drawing.Color.FromArgb(((int)(((byte)(168)))), ((int)(((byte)(160)))), ((int)(((byte)(168)))));
-            this.btnSalesWiseReport.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Idle;
-            this.btnSalesWiseReport.Font = new System.Drawing.Font("Gilroy", 10F, System.Drawing.FontStyle.Bold);
-            this.btnSalesWiseReport.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.btnSalesWiseReport.IconLeftCursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSalesWiseReport.IconMarginLeft = 11;
-            this.btnSalesWiseReport.IconPadding = 10;
-            this.btnSalesWiseReport.IconRightCursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSalesWiseReport.IdleBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(73)))), ((int)(((byte)(73)))), ((int)(((byte)(73)))));
-            this.btnSalesWiseReport.IdleBorderRadius = 10;
-            this.btnSalesWiseReport.IdleBorderThickness = 1;
-            this.btnSalesWiseReport.IdleFillColor = System.Drawing.Color.Empty;
-            this.btnSalesWiseReport.IdleIconLeftImage = ((System.Drawing.Image)(resources.GetObject("btnSalesWiseReport.IdleIconLeftImage")));
-            this.btnSalesWiseReport.IdleIconRightImage = null;
-            this.btnSalesWiseReport.IndicateFocus = true;
-            this.btnSalesWiseReport.Location = new System.Drawing.Point(1, 125);
-            this.btnSalesWiseReport.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.btnSalesWiseReport.Name = "btnSalesWiseReport";
-            stateProperties43.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            stateProperties43.BorderRadius = 10;
-            stateProperties43.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            stateProperties43.BorderThickness = 1;
-            stateProperties43.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(23)))), ((int)(((byte)(23)))));
-            stateProperties43.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            stateProperties43.IconLeftImage = null;
-            stateProperties43.IconRightImage = null;
-            this.btnSalesWiseReport.onHoverState = stateProperties43;
-            stateProperties44.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            stateProperties44.BorderRadius = 10;
-            stateProperties44.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            stateProperties44.BorderThickness = 1;
-            stateProperties44.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(53)))), ((int)(((byte)(53)))));
-            stateProperties44.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            stateProperties44.IconLeftImage = null;
-            stateProperties44.IconRightImage = null;
-            this.btnSalesWiseReport.OnPressedState = stateProperties44;
-            this.btnSalesWiseReport.Size = new System.Drawing.Size(248, 40);
-            this.btnSalesWiseReport.TabIndex = 23;
-            this.btnSalesWiseReport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnSalesWiseReport.TextMarginLeft = 0;
-            this.btnSalesWiseReport.UseDefaultRadiusAndThickness = true;
-            this.btnSalesWiseReport.Click += new System.EventHandler(this.btnSalesWiseReport_Click);
             // 
             // FRM_HOME
             // 

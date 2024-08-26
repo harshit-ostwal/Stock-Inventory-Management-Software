@@ -40,7 +40,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             AutoNumber();
             displaySupplierData();
-            displayProductData();
+            //displayProductData();
         }
 
         private void ClearAll()
@@ -194,7 +194,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 {
                     txtProductName.Focus();
                     dgwSupplier.Hide();
-                    dgwProduct.Show();
                 }
             }
         }
@@ -273,8 +272,15 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             try
             {
-                dgwProduct.Show();
-                (dgwProduct.DataSource as DataTable).DefaultView.RowFilter = string.Format("f_product_name LIKE '%{0}%'", txtProductName.Text);
+                if(txtSupplierName.Text != string.Empty)
+                {
+                    dgwProduct.Show();
+                    (dgwProduct.DataSource as DataTable).DefaultView.RowFilter = string.Format("f_product_name LIKE '%{0}%'", txtProductName.Text);
+                }
+                else
+                {
+                    txtSupplierName.Focus();
+                }
             }
             catch
             {

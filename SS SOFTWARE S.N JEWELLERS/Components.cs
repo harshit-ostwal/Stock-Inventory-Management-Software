@@ -27,7 +27,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (e.KeyCode == Keys.Escape)
             {
-                if (MessageBox.Show("Do You Wanna Close?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Do You Wanna Quit Application?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     Application.Exit();
                 }
@@ -36,7 +36,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         public void ExitApplication()
         {
-            if (MessageBox.Show("Do You Wanna Close?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("Do You Wanna Quit Application?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 Application.Exit();
             }
@@ -136,20 +136,14 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         public void Close(Form Form)
         {
-            if (MessageBox.Show("Do You Wanna Close Application?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                Form.Close();
-            }
+            Form.Close();
         }
 
         public void Close(Form Form, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                if (MessageBox.Show("Do You Wanna Close Application?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    Form.Close();
-                }
+                Form.Close();
             }
         }
 
