@@ -42,6 +42,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void FRM_PRODUCT_MASTER_Load(object sender, EventArgs e)
         {
             AutoNumber();
+            getItems();
         }
 
         private void ClearAll()
@@ -74,9 +75,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             foreach (DataRow row in dt.Rows)
             {
-                string fetchSizeIdQuery = "Select f_product_size_id from Product_Size_db where f_product_size_no = '" + row[0] + "'";
-                string productSizeId = con.FetchData(fetchSizeIdQuery);
-                query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_id,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + txtProductId.Text + "', '" + txtProductName.Text + "', '" + productSizeId + "', '" + row[0] + "', '" + row[1] + "', '" + row[2] + "', '" + row[3] + "')";
+                query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + txtProductId.Text + "', '" + txtProductName.Text + "', '" + row[0] + "', '" + row[1] + "', '" + row[2] + "', '" + row[3] + "')";
                 con.SaveOrEditItems(query);
             }
         }
@@ -101,9 +100,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             con.SaveOrEditItems(query);
             foreach (DataRow row in dt.Rows)
             {
-                string fetchSizeIdQuery = "Select f_product_size_id from Product_Size_db where f_product_size_no = '" + row[0] + "'";
-                string productSizeId = con.FetchData(fetchSizeIdQuery);
-                query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_id,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + txtProductId.Text + "', '" + txtProductName.Text + "', '" + productSizeId + "', '" + row[0] + "', '" + row[1] + "', '" + row[2] + "', '" + row[3] + "')";
+                query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + txtProductId.Text + "', '" + txtProductName.Text + "', '" + row[0] + "', '" + row[1] + "', '" + row[2] + "', '" + row[3] + "')";
                 con.SaveOrEditItems(query);
             }
         }
@@ -114,16 +111,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
             if (comp.validateControls(textBoxes))
             {
-                string fetchCategoryIdQuery = "Select f_product_category_id from Product_Category_db where f_product_category_name = '" + cmbGodownName.Text + "'";
-                string categoryId = con.FetchData(fetchCategoryIdQuery);
-                string fetchGodownIdQuery;
-                string godownId;
-                fetchGodownIdQuery = "Select f_godown_id from Godown_db where f_godown_name = '" + cmbGodownName.Text + "'";
-                godownId = con.FetchData(fetchGodownIdQuery);
                 if (btnSave.Text == "F2 Save" && grpProduct.Text == "Create")
                 {
                     validate = "Select * from Product_db where f_product_name ='" + txtProductName.Text + "'";
-                    query = "Insert into Product_db (f_product_id,f_product_name,f_product_category_id,f_product_category_name,f_godown_id,f_godown_name) values ('" + txtProductId.Text + "','" + txtProductName.Text + "','" + categoryId + "','" + cmbProductCategoryName.SelectedItem.ToString() + "','" + godownId + "','" + cmbGodownName.SelectedItem.ToString() + "')";
+                    query = "Insert into Product_db (f_product_id,f_product_name,f_product_category_name,f_godown_name) values ('" + txtProductId.Text + "','" + txtProductName.Text + "','" + cmbProductCategoryName.Text + "','" + cmbGodownName.Text + "')";
                     if (con.SaveData(query, validate))
                     {
                         SaveItems();
@@ -134,7 +125,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 else if (btnSave.Text == "F2 Update" && grpProduct.Text == "Update")
                 {
                     validate = "Select * from Product_db where f_product_name ='" + txtProductName.Text + "'";
-                    query = "Update Product_db set f_product_id ='" + txtProductId.Text + "',f_product_name='" + txtProductName.Text + "' ,f_product_category_id ='" + categoryId + "',f_product_category_name='" + cmbProductCategoryName.Text + "',f_godown_id='" + godownId + "',f_godown_name ='" + cmbGodownName.Text + "' where ID=" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
+                    query = "Update Product_db set f_product_id ='" + txtProductId.Text + "',f_product_name='" + txtProductName.Text + "',f_product_category_name='" + cmbProductCategoryName.Text + "',f_godown_name ='" + cmbGodownName.Text + "' where ID=" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
                     if (con.EditData(query, validate))
                     {
                         UpdateItems();
@@ -185,7 +176,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grpProduct.Text == "Update" || grpProduct.Text == "View" || dgwDetails.Visible == true)
+            if (grpProduct.Text == "Update" || grpProduct.Text == "View")
             {
                 query = "Delete From Product_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
                 if (con.DeleteData(query, dgwDetails))
@@ -436,7 +427,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void txtProductName_Leave(object sender, EventArgs e)
         {
             txtPrintingName.Text = txtProductName.Text;
-            getItems();
         }
 
         private void txtPrintingName_Leave(object sender, EventArgs e)

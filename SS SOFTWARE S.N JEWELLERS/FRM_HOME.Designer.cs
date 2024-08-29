@@ -2841,7 +2841,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.MinimumSize = new System.Drawing.Size(1280, 720);
             this.Name = "FRM_HOME";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "8";
+            this.Text = "SS SOFTWARE";
             this.Load += new System.EventHandler(this.FRM_HOME_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FRM_HOME_KeyDown);
             this.pnlSidebar.ResumeLayout(false);

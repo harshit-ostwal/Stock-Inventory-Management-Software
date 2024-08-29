@@ -104,8 +104,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.dgwCustomer = new System.Windows.Forms.DataGridView();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.cmbProductSizeNo = new System.Windows.Forms.ComboBox();
-            this.txtProductSizeId = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
             this.txtGodownName = new System.Windows.Forms.TextBox();
             this.txtProductCategoryName = new System.Windows.Forms.TextBox();
             this.txtProductId = new System.Windows.Forms.TextBox();
@@ -880,8 +878,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             // grpProduct
             // 
             this.grpProduct.Controls.Add(this.cmbProductSizeNo);
-            this.grpProduct.Controls.Add(this.txtProductSizeId);
-            this.grpProduct.Controls.Add(this.label18);
             this.grpProduct.Controls.Add(this.txtGodownName);
             this.grpProduct.Controls.Add(this.txtProductCategoryName);
             this.grpProduct.Controls.Add(this.txtProductId);
@@ -919,36 +915,12 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.cmbProductSizeNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
             this.cmbProductSizeNo.IntegralHeight = false;
             this.cmbProductSizeNo.ItemHeight = 19;
-            this.cmbProductSizeNo.Location = new System.Drawing.Point(198, 103);
+            this.cmbProductSizeNo.Location = new System.Drawing.Point(621, 41);
             this.cmbProductSizeNo.Name = "cmbProductSizeNo";
             this.cmbProductSizeNo.Size = new System.Drawing.Size(183, 27);
-            this.cmbProductSizeNo.TabIndex = 15;
+            this.cmbProductSizeNo.TabIndex = 12;
             this.cmbProductSizeNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             this.cmbProductSizeNo.Leave += new System.EventHandler(this.cmbProductSizeNo_Leave);
-            // 
-            // txtProductSizeId
-            // 
-            this.txtProductSizeId.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.txtProductSizeId.Enabled = false;
-            this.txtProductSizeId.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtProductSizeId.ForeColor = System.Drawing.Color.White;
-            this.txtProductSizeId.Location = new System.Drawing.Point(17, 103);
-            this.txtProductSizeId.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtProductSizeId.Name = "txtProductSizeId";
-            this.txtProductSizeId.Size = new System.Drawing.Size(175, 26);
-            this.txtProductSizeId.TabIndex = 14;
-            this.txtProductSizeId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label18.Location = new System.Drawing.Point(13, 81);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(121, 20);
-            this.label18.TabIndex = 156;
-            this.label18.Text = "Product Size ID";
             // 
             // txtGodownName
             // 
@@ -956,11 +928,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtGodownName.Enabled = false;
             this.txtGodownName.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGodownName.ForeColor = System.Drawing.Color.White;
-            this.txtGodownName.Location = new System.Drawing.Point(858, 41);
+            this.txtGodownName.Location = new System.Drawing.Point(200, 103);
             this.txtGodownName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtGodownName.Name = "txtGodownName";
             this.txtGodownName.Size = new System.Drawing.Size(175, 26);
-            this.txtGodownName.TabIndex = 13;
+            this.txtGodownName.TabIndex = 15;
             this.txtGodownName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
             // txtProductCategoryName
@@ -969,11 +941,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtProductCategoryName.Enabled = false;
             this.txtProductCategoryName.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtProductCategoryName.ForeColor = System.Drawing.Color.White;
-            this.txtProductCategoryName.Location = new System.Drawing.Point(677, 41);
+            this.txtProductCategoryName.Location = new System.Drawing.Point(19, 103);
             this.txtProductCategoryName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtProductCategoryName.Name = "txtProductCategoryName";
             this.txtProductCategoryName.Size = new System.Drawing.Size(175, 26);
-            this.txtProductCategoryName.TabIndex = 12;
+            this.txtProductCategoryName.TabIndex = 14;
             this.txtProductCategoryName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
             // txtProductId
@@ -986,7 +958,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtProductId.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtProductId.Name = "txtProductId";
             this.txtProductId.ReadOnly = true;
-            this.txtProductId.Size = new System.Drawing.Size(175, 26);
+            this.txtProductId.Size = new System.Drawing.Size(126, 26);
             this.txtProductId.TabIndex = 9;
             this.txtProductId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
@@ -1006,7 +978,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtProductName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.txtProductName.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtProductName.ForeColor = System.Drawing.Color.White;
-            this.txtProductName.Location = new System.Drawing.Point(382, 41);
+            this.txtProductName.Location = new System.Drawing.Point(329, 41);
             this.txtProductName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtProductName.Name = "txtProductName";
             this.txtProductName.Size = new System.Drawing.Size(289, 26);
@@ -1019,7 +991,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label17.Location = new System.Drawing.Point(378, 19);
+            this.label17.Location = new System.Drawing.Point(325, 19);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(116, 20);
             this.label17.TabIndex = 150;
@@ -1030,11 +1002,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtQuantity.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.txtQuantity.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtQuantity.ForeColor = System.Drawing.Color.White;
-            this.txtQuantity.Location = new System.Drawing.Point(674, 103);
+            this.txtQuantity.Location = new System.Drawing.Point(810, 41);
             this.txtQuantity.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtQuantity.Name = "txtQuantity";
-            this.txtQuantity.Size = new System.Drawing.Size(356, 26);
-            this.txtQuantity.TabIndex = 17;
+            this.txtQuantity.Size = new System.Drawing.Size(244, 26);
+            this.txtQuantity.TabIndex = 13;
             this.txtQuantity.Text = "1";
             this.txtQuantity.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
@@ -1043,7 +1015,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label5.Location = new System.Drawing.Point(670, 81);
+            this.label5.Location = new System.Drawing.Point(806, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(74, 20);
             this.label5.TabIndex = 148;
@@ -1052,13 +1024,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             // txtPrintingName
             // 
             this.txtPrintingName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.txtPrintingName.Enabled = false;
             this.txtPrintingName.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPrintingName.ForeColor = System.Drawing.Color.White;
             this.txtPrintingName.Location = new System.Drawing.Point(386, 103);
             this.txtPrintingName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPrintingName.Name = "txtPrintingName";
-            this.txtPrintingName.ReadOnly = true;
             this.txtPrintingName.Size = new System.Drawing.Size(282, 26);
             this.txtPrintingName.TabIndex = 16;
             this.txtPrintingName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
@@ -1079,7 +1049,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtBarcode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.txtBarcode.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtBarcode.ForeColor = System.Drawing.Color.White;
-            this.txtBarcode.Location = new System.Drawing.Point(200, 41);
+            this.txtBarcode.Location = new System.Drawing.Point(147, 41);
             this.txtBarcode.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtBarcode.Name = "txtBarcode";
             this.txtBarcode.Size = new System.Drawing.Size(175, 26);
@@ -1092,7 +1062,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label12.Location = new System.Drawing.Point(196, 16);
+            this.label12.Location = new System.Drawing.Point(143, 16);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(73, 20);
             this.label12.TabIndex = 146;
@@ -1103,7 +1073,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label13.Location = new System.Drawing.Point(194, 80);
+            this.label13.Location = new System.Drawing.Point(617, 19);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(127, 20);
             this.label13.TabIndex = 145;
@@ -1114,7 +1084,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label14.Location = new System.Drawing.Point(854, 16);
+            this.label14.Location = new System.Drawing.Point(196, 78);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(121, 20);
             this.label14.TabIndex = 140;
@@ -1125,7 +1095,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Gilroy", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.label15.Location = new System.Drawing.Point(673, 16);
+            this.label15.Location = new System.Drawing.Point(15, 78);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(128, 20);
             this.label15.TabIndex = 139;
@@ -1515,9 +1485,9 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dgwDetails);
             this.Controls.Add(this.dgwItems);
             this.Controls.Add(this.grpProduct);
+            this.Controls.Add(this.dgwDetails);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1570,8 +1540,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private System.Windows.Forms.TextBox txtInvoiceNo;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.GroupBox grpProduct;
-        private System.Windows.Forms.TextBox txtProductSizeId;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.TextBox txtGodownName;
         private System.Windows.Forms.TextBox txtProductCategoryName;
         private System.Windows.Forms.TextBox txtProductId;

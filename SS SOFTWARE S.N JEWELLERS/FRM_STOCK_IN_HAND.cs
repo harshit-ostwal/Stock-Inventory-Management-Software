@@ -27,6 +27,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt.Columns.Add("Barcode", typeof(string));
             dt.Columns.Add("Printing Name", typeof(string));
             dt.Columns.Add("Quantity", typeof(int));
+            cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_HAND.rpt");
             dgwDetails.DataSource = dt;
         }
 
@@ -51,7 +52,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (MessageBox.Show("Do You Want To Load Stock ⏲?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_HAND.rpt");
                 string query = @"
         SELECT 
             Product_db.f_product_id, 
@@ -72,53 +72,26 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                 if (!string.IsNullOrEmpty(searchType) && !string.IsNullOrEmpty(searchTerm))
                 {
-                    searchTerm = searchTerm.Replace("'", "''");
-
                     switch (searchType)
                     {
                         case "Product Name":
-                            query += " Where Product_db.f_product_name LIKE '%" + searchTerm + "%'";
+                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Name] LIKE '%{0}%'", txtSearch.Text);
                             break;
                         case "Category Name":
-                            query += " Where Product_db.f_product_category_name LIKE '%" + searchTerm + "%'";
+                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Category Name] LIKE '%{0}%'", txtSearch.Text);
                             break;
                         case "Godown Name":
-                            query += " Where Product_db.f_godown_name LIKE '%" + searchTerm + "%'";
+                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Godown Name] LIKE '%{0}%'", txtSearch.Text);
                             break;
                         case "Product Size No":
-                            query += " Where Product_Items_db.f_product_size_no LIKE '%" + searchTerm + "%'";
+                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Size No] LIKE '%{0}%'", txtSearch.Text);
                             break;
                         default:
                             MessageBox.Show("Please select a valid search type.", "Invalid Search Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                     }
                 }
-
                 OleDbDataAdapter ad = new OleDbDataAdapter(query, Main);
-                ds.Clear();
-                ad.Fill(ds);
-
-                dt.Rows.Clear();
-
-                foreach (DataRow row in ds.Tables[0].Rows)
-                {
-                    dt.Rows.Add(row["f_product_id"], row["f_product_name"], row["f_product_category_name"], row["f_godown_name"], row["f_product_size_no"], row["f_barcode"], row["f_printing_name"], row["f_quantity"]);
-                }
-                CalculateTotal();
-            }
-            ds.WriteXmlSchema("Reports.xml");
-            cr.SetDataSource(ds);
-        }
-
-
-        private void btnShowAllStock_Click(object sender, EventArgs e)
-        {
-            cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_HAND.rpt");
-            ClearAll();
-            if (MessageBox.Show("Do You Want To Load All Stock ⏲?\n It Might Take A Bit Of Time To Load All The Records. ⏳", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                string query = "SELECT Product_db.f_product_id, Product_db.f_product_name, Product_db.f_product_category_name, Product_db.f_godown_name, Product_Items_db.f_product_size_no, Product_Items_db.f_barcode, Product_Items_db.f_printing_name, Product_Items_db.f_quantity FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id";
-                ad = new OleDbDataAdapter(query, Main);
                 ds.Clear();
                 ad.Fill(ds);
                 dt.Rows.Clear();
@@ -128,8 +101,28 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 }
                 CalculateTotal();
             }
-            ds.WriteXmlSchema("Reports.xml");
-            cr.SetDataSource(ds);
+        }
+        
+        private void ShowData()
+        {
+            string query = "SELECT Product_db.f_product_id, Product_db.f_product_name, Product_db.f_product_category_name, Product_db.f_godown_name, Product_Items_db.f_product_size_no, Product_Items_db.f_barcode, Product_Items_db.f_printing_name, Product_Items_db.f_quantity FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id";
+            ad = new OleDbDataAdapter(query, Main);
+            ds.Clear();
+            ad.Fill(ds);
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                dt.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
+            }
+        }
+
+
+        private void btnShowAllStock_Click(object sender, EventArgs e)
+        {
+            ClearAll();
+            if (MessageBox.Show("Do You Want To Load All Stock ⏲?\n It Might Take A Bit Of Time To Load All The Records. ⏳", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ShowData();
+            }
         }
 
         private void ClearAll()
@@ -148,6 +141,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
+            ds.WriteXmlSchema("Reports.xml");
+            cr.SetDataSource(ds);
             FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Stock In Hand");
             View_Daily_Reports.ShowDialog();
         }

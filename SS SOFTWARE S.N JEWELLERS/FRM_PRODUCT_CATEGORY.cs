@@ -118,7 +118,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grpProductCategory.Text == "Update" || grpProductCategory.Text == "View" || dgwDetails.Visible == true)
+            if (grpProductCategory.Text == "Update" || grpProductCategory.Text == "View")
             {
                 query = "Delete From Product_Category_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
                 con.DeleteData(query, dgwDetails);

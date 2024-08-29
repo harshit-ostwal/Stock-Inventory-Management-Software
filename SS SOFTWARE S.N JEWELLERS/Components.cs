@@ -136,14 +136,20 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         public void Close(Form Form)
         {
-            Form.Close();
+            if (MessageBox.Show("Do You Wanna Close?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Form.Close();
+            }
         }
 
         public void Close(Form Form, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
-                Form.Close();
+                if (MessageBox.Show("Do You Wanna Close?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    Form.Close();
+                }
             }
         }
 

@@ -17,6 +17,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         public FRM_STOCK_IN_OUT_REPORT()
         {
             InitializeComponent();
+            cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_OUT_REPORT.rpt");
         }
 
         private void btnStockInOutReport_Click(object sender, EventArgs e)
@@ -25,7 +26,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 try
                 {
-                    cr.Load(Application.StartupPath + "/REPORTS/CRY_STOCK_IN_OUT_REPORT.rpt");
                     TextObject FromDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblFromDate"];
                     FromDate.Text = txtFromDate.Value.ToString("dd-MM-yyyy");
                     TextObject ToDate = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblToDate"];

@@ -1,8 +1,10 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Text;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -31,9 +33,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt.Columns.Add("Quantity", typeof(string));
             dt2.Columns.Add("Product ID", typeof(string));
             dt2.Columns.Add("Product Name", typeof(string));
-            dt2.Columns.Add("Product Category ID", typeof(string));
             dt2.Columns.Add("Product Category Name", typeof(string));
-            dt2.Columns.Add("Product Godown ID", typeof(string));
             dt2.Columns.Add("Product Godown Name", typeof(string));
             dgwDetails.DataSource = dt;
         }
@@ -207,13 +207,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             try
             {
                 string query;
-                string productCategoryID;
-                string godownID;
-                string productSizeID;
-                string Barcode;
-                TextBox productName = new TextBox();
-                ComboBox CategoryName = new ComboBox();
-                ComboBox SizeNo = new ComboBox();
                 bool isFirstOccurrence = true;
                 string previousProductID = null;
                 if (MessageBox.Show("Do You Wanna Save Data❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
@@ -222,60 +215,20 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     {
                         for (int i = 0; i < dgwDetails.Rows.Count; i++)
                         {
-                            productName.Text = dgwDetails.Rows[i].Cells[1].Value.ToString();
-                            CategoryName.Text = dgwDetails.Rows[i].Cells[2].Value.ToString();
-                            SizeNo.Text = dgwDetails.Rows[i].Cells[4].Value.ToString();
-                            if (dgwDetails.Rows[i].Cells[5].Value.ToString() == string.Empty)
-                            {
-                                Barcode = comp.GetBarcode(productName, CategoryName, SizeNo);
-                                dgwDetails.Rows[i].Cells[5].Value = Barcode;
-                            }
-                            else
-                            {
-                                Barcode = dgwDetails.Rows[i].Cells[5].Value.ToString();
-                            }
-                            string printingName = dgwDetails.Rows[i].Cells[6].Value.ToString();
-                            if (string.IsNullOrWhiteSpace(printingName))
-                            {
-                                dgwDetails.Rows[i].Cells[6].Value = productName.Text;
-                            }
-                            query = "Select f_product_category_id from Product_Category_db where f_product_category_name='" + dgwDetails.Rows[i].Cells[2].Value + "'";
-                            productCategoryID = con.FetchData(query);
-                            query = "Select f_godown_id from Godown_db where f_godown_name='" + dgwDetails.Rows[i].Cells[3].Value + "'";
-                            godownID = con.FetchData(query);
-                            query = "Select f_product_size_id from Product_Size_db where f_product_size_no='" + dgwDetails.Rows[i].Cells[4].Value + "'";
-                            productSizeID = con.FetchData(query);
+                            string productID = dgwDetails.Rows[i].Cells[0].Value.ToString();
 
-                            if (productCategoryID == string.Empty)
+                            if (isFirstOccurrence || productID != previousProductID)
                             {
-                                MessageBox.Show("Data Verification Failed. Please Review The Information Provided ❔\nIncorrect Category Name :- " + dgwDetails.Rows[i].Cells[2].Value, "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                dt2.Rows.Add(dgwDetails.Rows[i].Cells[0].Value.ToString(), dgwDetails.Rows[i].Cells[1].Value.ToString(), dgwDetails.Rows[i].Cells[2].Value.ToString(), dgwDetails.Rows[i].Cells[3].Value.ToString());
+                                previousProductID = productID;
+                                isFirstOccurrence = false;
                             }
-                            if (godownID == string.Empty)
-                            {
-                                MessageBox.Show("Data Verification Failed. Please Review The Information Provided ❔\nIncorrect Godown Name :- " + dgwDetails.Rows[i].Cells[3].Value, "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            if (productSizeID == string.Empty)
-                            {
-                                MessageBox.Show("Data Verification Failed. Please Review The Information Provided ❔\nIncorrect Product Size No :- " + dgwDetails.Rows[i].Cells[4].Value, "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-
-                            if (Barcode != string.Empty && productCategoryID != string.Empty && godownID != string.Empty && productSizeID != string.Empty)
-                            {
-                                string productID = dgwDetails.Rows[i].Cells[0].Value.ToString();
-
-                                if (isFirstOccurrence || productID != previousProductID)
-                                {
-                                    dt2.Rows.Add(dgwDetails.Rows[i].Cells[0].Value.ToString(), dgwDetails.Rows[i].Cells[1].Value.ToString(), productCategoryID, dgwDetails.Rows[i].Cells[2].Value.ToString(), godownID, dgwDetails.Rows[i].Cells[3].Value.ToString());
-                                    previousProductID = productID;
-                                    isFirstOccurrence = false;
-                                }
-                                query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_id,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + dgwDetails.Rows[i].Cells[0].Value + "','" + dgwDetails.Rows[i].Cells[1].Value + "','" + productSizeID + "','" + dgwDetails.Rows[i].Cells[4].Value + "','" + Barcode + "','" + dgwDetails.Rows[i].Cells[6].Value + "','" + dgwDetails.Rows[i].Cells[7].Value + "')";
-                                con.SaveOrEditItems(query);
-                            }
+                            query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + dgwDetails.Rows[i].Cells[0].Value + "','" + dgwDetails.Rows[i].Cells[1].Value + "','" + dgwDetails.Rows[i].Cells[4].Value + "','" + dgwDetails.Rows[i].Cells[5].Value + "','" + dgwDetails.Rows[i].Cells[6].Value + "','" + dgwDetails.Rows[i].Cells[7].Value + "')";
+                            con.SaveOrEditItems(query);
                         }
                         foreach (DataRow dr in dt2.Rows)
                         {
-                            query = "insert into Product_db (f_product_id,f_product_name,f_product_category_id,f_product_category_name,f_godown_id,f_godown_name) Values ('" + dr[0] + "','" + dr[1] + "','" + dr[2] + "','" + dr[3] + "','" + dr[4] + "','" + dr[5] + "')";
+                            query = "insert into Product_db (f_product_id,f_product_name,f_product_category_name,f_godown_name) Values ('" + dr[0] + "','" + dr[1] + "','" + dr[2] + "','" + dr[3] + "')";
                             con.SaveOrEditItems(query);
                         }
                         MessageBox.Show("Data Creation Successfull👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -293,7 +246,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 MessageBox.Show("An Error Occured While Data Creation?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void btnResize_Click(object sender, EventArgs e)
         {

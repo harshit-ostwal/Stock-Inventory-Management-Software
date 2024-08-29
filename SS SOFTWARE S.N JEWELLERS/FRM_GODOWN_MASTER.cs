@@ -118,7 +118,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grpGodown.Text == "Update" || grpGodown.Text == "View" || dgwDetails.Visible == true)
+            if (grpGodown.Text == "Update" || grpGodown.Text == "View")
             {
                 query = "Delete From Godown_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
                 con.DeleteData(query, dgwDetails);
