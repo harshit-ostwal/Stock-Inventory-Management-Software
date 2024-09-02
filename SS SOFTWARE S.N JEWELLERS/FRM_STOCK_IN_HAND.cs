@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -53,48 +54,59 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             if (MessageBox.Show("Do You Want To Load Stock ⏲?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 string query = @"
-        SELECT 
-            Product_db.f_product_id, 
-            Product_db.f_product_name, 
-            Product_db.f_product_category_name, 
-            Product_db.f_godown_name, 
-            Product_Items_db.f_product_size_no, 
-            Product_Items_db.f_barcode, 
-            Product_Items_db.f_printing_name, 
-            Product_Items_db.f_quantity 
-        FROM 
-            Product_db 
-      INNER JOIN 
-            Product_Items_db ON Product_db.f_product_id = Product_Items_db.f_product_id";
+    SELECT 
+        Product_db.f_product_id, 
+        Product_db.f_product_name, 
+        Product_db.f_product_category_name, 
+        Product_db.f_godown_name, 
+        Product_Items_db.f_product_size_no, 
+        Product_Items_db.f_barcode, 
+        Product_Items_db.f_printing_name, 
+        Product_Items_db.f_quantity 
+    FROM 
+        Product_db 
+    INNER JOIN 
+        Product_Items_db ON Product_db.f_product_id = Product_Items_db.f_product_id";
+
+                string filter = "";
 
                 string searchType = cmbSearchType.SelectedItem?.ToString();
                 string searchTerm = txtSearch.Text.Trim();
 
                 if (!string.IsNullOrEmpty(searchType) && !string.IsNullOrEmpty(searchTerm))
                 {
+                    string[] terms = searchTerm.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                .Select(term => term.Trim())
+                                                .ToArray();
+
                     switch (searchType)
                     {
                         case "Product Name":
-                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Name] LIKE '%{0}%'", txtSearch.Text);
+                            filter = string.Join(" OR ", terms.Select(term => string.Format("[Product_Items_db].[f_product_name] LIKE '%%{0}%%'", term)));
                             break;
                         case "Category Name":
-                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Category Name] LIKE '%{0}%'", txtSearch.Text);
+                            filter = string.Join(" OR ", terms.Select(term => string.Format("[Product_db].[f_product_category_name] LIKE '%%{0}%%'", term)));
                             break;
                         case "Godown Name":
-                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Godown Name] LIKE '%{0}%'", txtSearch.Text);
+                            filter = string.Join(" OR ", terms.Select(term => string.Format("[Product_db].[f_godown_name] LIKE '%%{0}%%'", term)));
                             break;
                         case "Product Size No":
-                            (dgwDetails.DataSource as DataTable).DefaultView.RowFilter = string.Format("[Product Size No] LIKE '%{0}%'", txtSearch.Text);
+                            filter = string.Join(" OR ", terms.Select(term => string.Format("[Product_Items_db].[f_product_size_no] LIKE '%%{0}%%'", term)));
+                            break;
+                        case "Barcode":
+                            filter = string.Join(" OR ", terms.Select(term => string.Format("[Product_Items_db].[f_barcode] LIKE '%%{0}%%'", term)));
                             break;
                         default:
                             MessageBox.Show("Please select a valid search type.", "Invalid Search Type", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             return;
                     }
+
+                    query += " WHERE " + filter;
                 }
                 OleDbDataAdapter ad = new OleDbDataAdapter(query, Main);
                 ds.Clear();
-                ad.Fill(ds);
                 dt.Rows.Clear();
+                ad.Fill(ds);
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
                     dt.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
@@ -102,17 +114,19 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 CalculateTotal();
             }
         }
-        
+
         private void ShowData()
         {
             string query = "SELECT Product_db.f_product_id, Product_db.f_product_name, Product_db.f_product_category_name, Product_db.f_godown_name, Product_Items_db.f_product_size_no, Product_Items_db.f_barcode, Product_Items_db.f_printing_name, Product_Items_db.f_quantity FROM Product_db Inner Join Product_Items_db On Product_db.f_product_id = Product_Items_db.f_product_id";
             ad = new OleDbDataAdapter(query, Main);
             ds.Clear();
+            dt.Rows.Clear();
             ad.Fill(ds);
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 dt.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
             }
+            CalculateTotal();
         }
 
 

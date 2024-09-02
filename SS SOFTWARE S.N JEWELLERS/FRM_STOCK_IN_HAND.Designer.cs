@@ -360,7 +360,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             "Product Name",
             "Category Name",
             "Godown Name",
-            "Product Size No"});
+            "Product Size No",
+            "Barcode"});
             this.cmbSearchType.Location = new System.Drawing.Point(16, 34);
             this.cmbSearchType.Name = "cmbSearchType";
             this.cmbSearchType.Size = new System.Drawing.Size(234, 27);

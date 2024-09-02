@@ -512,7 +512,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.dgwItems.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Gilroy", 10F, System.Drawing.FontStyle.Bold);
             this.dgwItems.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgwItems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgwItems.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgwItems.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgwItems.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.dgwItems.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
@@ -1485,8 +1485,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dgwItems);
             this.Controls.Add(this.grpProduct);
+            this.Controls.Add(this.dgwItems);
             this.Controls.Add(this.dgwDetails);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

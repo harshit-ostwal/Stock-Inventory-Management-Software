@@ -121,6 +121,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 return data != null ? data.ToString() : string.Empty;
             }
         }
+
         public string FetchAdminData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Settings))
@@ -195,8 +196,9 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
+
             }
         }
 

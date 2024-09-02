@@ -30,6 +30,9 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt2.Columns.Add("Product ID", typeof(string));
             dt2.Columns.Add("Barcode", typeof(string));
             dt2.Columns.Add("Quantity", typeof(int));
+            dt3.Columns.Add("Product ID", typeof(string));
+            dt3.Columns.Add("Barcode", typeof(string));
+            dt3.Columns.Add("Quantity", typeof(int));
             dgwItems.DataSource = dt;
         }
 
@@ -52,6 +55,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt.Clear();
             isRemoveClicked = false;
             btnAdd.Enabled = true;
+            dt3.Clear();
             dt2.Clear();
             txtQuantity.Text = "1";
             lblTotalQuantity.Text = "0";
@@ -120,6 +124,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dgwCustomer.Hide();
             isRemoveClicked = false;
             dt2.Clear();
+            dt3.Clear();
         }
 
         private void ClearProduct()
@@ -301,6 +306,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     SendKeys.Send("{TAB}");
                 }
             }
+            getItems();
         }
 
         private void Enter_Key_Press(object sender, KeyEventArgs e)
@@ -318,15 +324,33 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             if (dgwItems.SelectedRows.Count > 0)
             {
                 var selectedRow = dgwItems.SelectedRows[0];
-                selectedRow.Cells[0].Value = txtProductId.Text;
-                selectedRow.Cells[1].Value = txtProductName.Text;
-                selectedRow.Cells[2].Value = txtProductCategoryName.Text;
-                selectedRow.Cells[3].Value = txtGodownName.Text;
-                selectedRow.Cells[4].Value = txtBarcode.Text;
-                selectedRow.Cells[5].Value = cmbProductSizeNo.Text;
-                selectedRow.Cells[6].Value = txtPrintingName.Text;
-                selectedRow.Cells[7].Value = txtQuantity.Text;
-                ClearProduct();
+                query = "select f_quantity from Product_Items_db where f_barcode='" + selectedRow.Cells[4].Value + "' And f_product_id ='" + selectedRow.Cells[0].Value + "' And f_product_size_no='" + selectedRow.Cells[5].Value + "'";
+                int qty = Convert.ToInt32(con.FetchData(query));
+                int newQty = qty + Convert.ToInt32(txtQuantity.Text);
+                int currentQty = Convert.ToInt32(selectedRow.Cells[7].Value.ToString());
+                if (newQty <= currentQty)
+                {
+                    if (selectedRow.Cells[5].Value.ToString() != cmbProductSizeNo.Text)
+                    {
+                        dt3.Rows.Add(selectedRow.Cells[0].Value.ToString(), selectedRow.Cells[4].Value.ToString(), selectedRow.Cells[7].Value.ToString());
+                    }
+                    selectedRow.Cells[0].Value = txtProductId.Text;
+                    selectedRow.Cells[1].Value = txtProductName.Text;
+                    selectedRow.Cells[2].Value = txtProductCategoryName.Text;
+                    selectedRow.Cells[3].Value = txtGodownName.Text;
+                    selectedRow.Cells[4].Value = txtBarcode.Text;
+                    selectedRow.Cells[5].Value = cmbProductSizeNo.Text;
+                    selectedRow.Cells[6].Value = txtPrintingName.Text;
+                    selectedRow.Cells[7].Value = txtQuantity.Text;
+                    ClearProduct();
+                }
+                else
+                {
+                    MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgwProduct.Hide();
+                    dgwItems.SelectedRows[i].Selected = false;
+                    ClearProduct();
+                }
             }
             else
             {
@@ -334,6 +358,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
+        DataTable dt3 = new DataTable();
         DataTable dt2 = new DataTable();
         bool isRemoveClicked = false;
 
@@ -374,7 +399,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                             {
                                 double lastQty = double.Parse(row.Cells[7].Value.ToString());
                                 double newQty = lastQty + double.Parse(txtQuantity.Text);
-                                row.Cells[10].Value = newQty.ToString();
+                                row.Cells[7].Value = newQty.ToString();
                                 itemExists = true;
                                 ClearProduct();
                                 break;
@@ -397,7 +422,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                                 dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
                                 ClearProduct();
                             }
-                            btnSave.Focus();
+                            txtBarcode.Focus();
                         }
                     }
                     else
@@ -431,7 +456,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void displayData()
         {
             query = "Select ID,f_invoice_no,f_invoice_date,f_customer_id,f_customer_name,f_area,f_mobile_no from Sales_db Order By ID Desc";
-            string[] headerText = { "ID", "Invoice ID", "Invoice Name", "Customer ID", "Customer Name", "Area", "Mobile No" };
+            string[] headerText = { "ID", "Invoice No", "Invoice Date", "Customer ID", "Customer Name", "Area", "Mobile No" };
             con.GetData(query, dgwDetails, headerText);
             dgwItems.Hide();
             dgwDetails.Show();
@@ -505,6 +530,24 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
+                    foreach (DataRow row in dt3.Rows)
+                    {
+                        string query = "select f_quantity from Product_Items_db where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand cmd = new OleDbCommand(query, connection);
+                        productQty = Convert.ToInt32(cmd.ExecuteScalar());
+
+                        query = "select f_quantity from Sales_Items_db where f_invoice_no='" + txtInvoiceNo.Text + "' and f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand cmd1 = new OleDbCommand(query, connection);
+                        salesLastQty = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                        salesNewQty = Convert.ToInt32(row[2]);
+
+                        int newQty = productQty + salesLastQty;
+
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand updateCmd = new OleDbCommand(query, connection);
+                        updateCmd.ExecuteNonQuery();
+                    }
                 }
                 else
                 {
@@ -518,7 +561,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         OleDbCommand cmd1 = new OleDbCommand(query, connection);
                         salesLastQty = Convert.ToInt32(cmd1.ExecuteScalar());
 
-                        salesNewQty = Convert.ToInt32(row[0]);
+                        salesNewQty = Convert.ToInt32(row[2]);
 
                         int newQty = productQty + salesLastQty;
 
@@ -547,9 +590,9 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
             if (comp.validateControls(textBoxes))
             {
-                if (dgwItems.Rows.Count > 0)
+                if (btnSave.Text == "F2 Save" && grpProduct.Text == "Create")
                 {
-                    if (btnSave.Text == "F2 Save" && grpProduct.Text == "Create")
+                    if (dgwItems.Rows.Count > 0)
                     {
                         validate = "Select * from Sales_db where f_invoice_no='" + txtInvoiceNo.Text + "'";
                         query = "Insert into Sales_db (f_invoice_no,f_invoice_date,f_customer_id,f_customer_name,f_area,f_mobile_no) values ('" + txtInvoiceNo.Text + "','" + txtInvoiceDate.Text + "','" + txtCustomerId.Text + "','" + txtCustomerName.Text + "','" + txtArea.Text + "','" + txtMobileNo.Text + "')";
@@ -560,43 +603,43 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         ClearAll();
                         AutoNumber();
                     }
-                    else if (btnSave.Text == "F2 Update" && grpProduct.Text == "Update")
-                    {
-                        validate = "Select * from Sales_db where f_invoice_no='" + txtInvoiceNo.Text + "'";
-                        query = "Update Sales_db set f_invoice_no ='" + txtInvoiceNo.Text + "',f_invoice_date='" + txtInvoiceDate.Text + "' ,f_customer_id='" + txtCustomerId.Text + "',f_customer_name='" + txtCustomerName.Text + "',f_area ='" + txtArea.Text + "',f_mobile_no='" + txtMobileNo.Text + "' where ID=" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
-                        if (con.EditData(query, validate))
-                        {
-                            UpdateItems();
-                        }
-                        ClearAll();
-                        AutoNumber();
-                        btnSave.Text = "F2 Save";
-                        grpProduct.Text = "Create";
-                    }
-                    else if (grpProduct.Text == "Create")
-                    {
-                        btnSave.Text = "F2 Save";
-                    }
-                    else if (grpProduct.Text == "Edit")
-                    {
-                        MessageBox.Show("Please Select A Data❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        ClearAll();
-                    }
-                    else if (grpProduct.Text == "View")
-                    {
-                        MessageBox.Show("You Are In The View Mode❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        ClearAll();
-                    }
                     else
                     {
-                        btnSave.Text = "F2 Save";
-                        ClearAll();
+                        MessageBox.Show("Please Add The Selling Products❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        ClearProduct();
                     }
+                }
+                else if (btnSave.Text == "F2 Update" && grpProduct.Text == "Update")
+                {
+                    validate = "Select * from Sales_db where f_invoice_no='" + txtInvoiceNo.Text + "'";
+                    query = "Update Sales_db set f_invoice_no ='" + txtInvoiceNo.Text + "',f_invoice_date='" + txtInvoiceDate.Text + "' ,f_customer_id='" + txtCustomerId.Text + "',f_customer_name='" + txtCustomerName.Text + "',f_area ='" + txtArea.Text + "',f_mobile_no='" + txtMobileNo.Text + "' where ID=" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
+                    if (con.EditData(query, validate))
+                    {
+                        UpdateItems();
+                    }
+                    ClearAll();
+                    AutoNumber();
+                    btnSave.Text = "F2 Save";
+                    grpProduct.Text = "Create";
+                }
+                else if (grpProduct.Text == "Create")
+                {
+                    btnSave.Text = "F2 Save";
+                }
+                else if (grpProduct.Text == "Edit")
+                {
+                    MessageBox.Show("Please Select A Data❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ClearAll();
+                }
+                else if (grpProduct.Text == "View")
+                {
+                    MessageBox.Show("You Are In The View Mode❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ClearAll();
                 }
                 else
                 {
-                    MessageBox.Show("Please Add The Selling Products❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    ClearProduct();
+                    btnSave.Text = "F2 Save";
+                    ClearAll();
                 }
             }
         }
@@ -618,7 +661,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (grpProduct.Text == "View" || grpProduct.Text == "View")
+            if (grpProduct.Text == "Update")
             {
                 query = "Delete From Sales_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
                 if (con.DeleteData(query, dgwDetails))
@@ -686,6 +729,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
             displayItems();
             txtCustomerName.Focus();
+            CalculateTotal();
             dgwDetails.Hide();
             dgwCustomer.Hide();
             dgwItems.Show();
@@ -776,7 +820,18 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void FRM_SALES_KeyDown(object sender, KeyEventArgs e)
         {
-            comp.Close(this, e);
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (dgwProduct.Visible == true || dgwCustomer.Visible == true)
+                {
+                    dgwProduct.Visible = false;
+                    dgwCustomer.Visible = false;
+                }
+                else if (dgwProduct.Visible == false && dgwCustomer.Visible == false)
+                {
+                    comp.Close(this, e);
+                }
+            }
             comp.ShortcutKey(Keys.F1, btnNew, e);
             comp.ShortcutKey(Keys.F2, btnSave, e);
             comp.ShortcutKey(Keys.F3, btnEdit, e);

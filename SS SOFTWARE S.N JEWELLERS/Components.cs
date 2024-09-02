@@ -172,6 +172,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 if (control is ComboBox comboBox)
                 {
                     comboBox.SelectedItem = null;
+                    comboBox.Text = null;
                 }
                 controls[0].Focus();
             }

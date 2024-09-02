@@ -223,7 +223,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                                 previousProductID = productID;
                                 isFirstOccurrence = false;
                             }
-                            query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + dgwDetails.Rows[i].Cells[0].Value + "','" + dgwDetails.Rows[i].Cells[1].Value + "','" + dgwDetails.Rows[i].Cells[4].Value + "','" + dgwDetails.Rows[i].Cells[5].Value + "','" + dgwDetails.Rows[i].Cells[6].Value + "','" + dgwDetails.Rows[i].Cells[7].Value + "')";
+                            query = "insert into Product_Items_db (f_product_id,f_product_name,f_product_size_no,f_barcode,f_printing_name,f_quantity) Values ('" + dgwDetails.Rows[i].Cells[0].Value.ToString() + "','" + dgwDetails.Rows[i].Cells[1].Value.ToString() + "','" + dgwDetails.Rows[i].Cells[4].Value.ToString() + "','" + dgwDetails.Rows[i].Cells[5].Value.ToString() + "','" + dgwDetails.Rows[i].Cells[6].Value.ToString() + "','" + dgwDetails.Rows[i].Cells[7].Value.ToString() + "')";
                             con.SaveOrEditItems(query);
                         }
                         foreach (DataRow dr in dt2.Rows)

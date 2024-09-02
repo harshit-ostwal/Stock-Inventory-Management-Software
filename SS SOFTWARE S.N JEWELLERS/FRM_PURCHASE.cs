@@ -30,6 +30,9 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt2.Columns.Add("Product ID", typeof(string));
             dt2.Columns.Add("Barcode", typeof(string));
             dt2.Columns.Add("Quantity", typeof(int));
+            dt3.Columns.Add("Product ID", typeof(string));
+            dt3.Columns.Add("Barcode", typeof(string));
+            dt3.Columns.Add("Quantity", typeof(int));
             dgwItems.DataSource = dt;
         }
 
@@ -52,6 +55,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt.Clear();
             isRemoveClicked = false;
             btnAdd.Enabled = true;
+            dt3.Clear();
             dt2.Clear();
             lblTotalQuantity.Text = "0";
             lblTotalProducts.Text = "0";
@@ -119,6 +123,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dgwSupplier.Hide();
             isRemoveClicked = false;
             dt2.Clear();
+            dt3.Clear();
         }
 
         private void ClearProduct()
@@ -294,6 +299,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     SendKeys.Send("{TAB}");
                 }
             }
+            getItems();
         }
 
         private void Enter_Key_Press(object sender, KeyEventArgs e)
@@ -311,6 +317,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             if (dgwItems.SelectedRows.Count > 0)
             {
                 var selectedRow = dgwItems.SelectedRows[0];
+                if (selectedRow.Cells[5].Value.ToString() != cmbProductSizeNo.Text)
+                {
+                    dt3.Rows.Add(selectedRow.Cells[0].Value.ToString(), selectedRow.Cells[4].Value.ToString(), selectedRow.Cells[7].Value.ToString());
+                }
                 selectedRow.Cells[0].Value = txtProductId.Text;
                 selectedRow.Cells[1].Value = txtProductName.Text;
                 selectedRow.Cells[2].Value = txtProductCategoryName.Text;
@@ -328,6 +338,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         }
 
         DataTable dt2 = new DataTable();
+        DataTable dt3 = new DataTable();
         bool isRemoveClicked = false;
 
         private void btnRemove_Click(object sender, EventArgs e)
@@ -384,7 +395,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
                         ClearProduct();
                     }
-                    btnSave.Focus();
+                    txtProductName.Focus();
                 }
             }
         }
@@ -402,7 +413,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void displayData()
         {
             query = "Select ID,f_invoice_no,f_invoice_date,f_supplier_id,f_supplier_name,f_gstin,f_mobile_no from Purchase_db Order By ID Desc";
-            string[] headerText = { "ID", "Invoice ID", "Invoice Name", "Supplier ID", "Supplier Name", "Gstin", "Mobile No" };
+            string[] headerText = { "ID", "Invoice No", "Invoice Date", "Supplier ID", "Supplier Name", "Gstin", "Mobile No" };
             con.GetData(query, dgwDetails, headerText);
             dgwItems.Hide();
             dgwDetails.Show();
@@ -473,6 +484,25 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         totalNewQty = newQty + purchaseNewQty;
 
                         query = "Update Product_Items_db set f_quantity='" + totalNewQty + "' where f_barcode='" + row[4] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand updateCmd = new OleDbCommand(query, connection);
+                        updateCmd.ExecuteNonQuery();
+                    }
+                    foreach (DataRow row in dt3.Rows)
+                    {
+                        string query = "select f_quantity from Product_Items_db where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand cmd = new OleDbCommand(query, connection);
+                        productQty = Convert.ToInt32(cmd.ExecuteScalar());
+                        Console.WriteLine("Product Qty" + productQty + row[1] + row[0] + row[2]);
+
+                        query = "select f_quantity from Purchase_Items_db where f_invoice_no='" + txtInvoiceNo.Text + "' and f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        OleDbCommand cmd1 = new OleDbCommand(query, connection);
+                        purchaseLastQty = Convert.ToInt32(cmd1.ExecuteScalar());
+
+                        purchaseNewQty = Convert.ToInt32(row[2]);
+
+                        int newQty = productQty - purchaseLastQty;
+
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -564,7 +594,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     if (con.EditData(query, validate))
                     {
                         UpdateItems();
-                        if(dgwDetails.Rows.Count >= 1)
+                        if (dgwDetails.Rows.Count >= 1)
                         {
                             barcodePrinting();
                         }
@@ -684,6 +714,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 grpProduct.Text = "Update";
             }
             displayItems();
+            CalculateTotal();
             txtSupplierName.Focus();
             dgwDetails.Hide();
             dgwSupplier.Hide();

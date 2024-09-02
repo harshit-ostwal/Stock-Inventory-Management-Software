@@ -220,6 +220,12 @@
     <Compile Include="FRM_PURCHASE_WISE_REPORT.Designer.cs">
       <DependentUpon>FRM_PURCHASE_WISE_REPORT.cs</DependentUpon>
     </Compile>
+    <Compile Include="FRM_STOCK_TRANSFER.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FRM_STOCK_TRANSFER.Designer.cs">
+      <DependentUpon>FRM_STOCK_TRANSFER.cs</DependentUpon>
+    </Compile>
     <Compile Include="FRM_STOCK_TRANSFER_REPORT.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -237,12 +243,6 @@
     </Compile>
     <Compile Include="FRM_SETTINGS.Designer.cs">
       <DependentUpon>FRM_SETTINGS.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FRM_STOCK_TRANSFER.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FRM_STOCK_TRANSFER.Designer.cs">
-      <DependentUpon>FRM_STOCK_TRANSFER.cs</DependentUpon>
     </Compile>
     <Compile Include="FRM_SUPPLIER_IMPORT_EXPORT.cs">
       <SubType>Form</SubType>
@@ -424,6 +424,9 @@
     <EmbeddedResource Include="FRM_PURCHASE_WISE_REPORT.resx">
       <DependentUpon>FRM_PURCHASE_WISE_REPORT.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FRM_STOCK_TRANSFER.resx">
+      <DependentUpon>FRM_STOCK_TRANSFER.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FRM_STOCK_TRANSFER_REPORT.resx">
       <DependentUpon>FRM_STOCK_TRANSFER_REPORT.cs</DependentUpon>
     </EmbeddedResource>
@@ -432,9 +435,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FRM_SETTINGS.resx">
       <DependentUpon>FRM_SETTINGS.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FRM_STOCK_TRANSFER.resx">
-      <DependentUpon>FRM_STOCK_TRANSFER.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FRM_SUPPLIER_IMPORT_EXPORT.resx">
       <DependentUpon>FRM_SUPPLIER_IMPORT_EXPORT.cs</DependentUpon>
