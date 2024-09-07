@@ -30,9 +30,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt2.Columns.Add("Product ID", typeof(string));
             dt2.Columns.Add("Barcode", typeof(string));
             dt2.Columns.Add("Quantity", typeof(int));
+            dt2.Columns.Add("Printing Name", typeof(string));
             dt3.Columns.Add("Product ID", typeof(string));
             dt3.Columns.Add("Barcode", typeof(string));
             dt3.Columns.Add("Quantity", typeof(int));
+            dt3.Columns.Add("Printing Name", typeof(string));
             dgwItems.DataSource = dt;
         }
 
@@ -314,12 +316,16 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (txtPrintingName.Text == string.Empty)
+            {
+                txtPrintingName.Text = txtProductName.Text;
+            }
             if (dgwItems.SelectedRows.Count > 0)
             {
                 var selectedRow = dgwItems.SelectedRows[0];
                 if (selectedRow.Cells[5].Value.ToString() != cmbProductSizeNo.Text)
                 {
-                    dt3.Rows.Add(selectedRow.Cells[0].Value.ToString(), selectedRow.Cells[4].Value.ToString(), selectedRow.Cells[7].Value.ToString());
+                    dt3.Rows.Add(selectedRow.Cells[0].Value.ToString(), selectedRow.Cells[4].Value.ToString(), selectedRow.Cells[7].Value.ToString(), selectedRow.Cells[6].Value.ToString());
                 }
                 selectedRow.Cells[0].Value = txtProductId.Text;
                 selectedRow.Cells[1].Value = txtProductName.Text;
@@ -351,7 +357,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 {
                     foreach (DataGridViewRow row in dgwItems.SelectedRows)
                     {
-                        dt2.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[7].Value.ToString());
+                        dt2.Rows.Add(row.Cells[0].Value.ToString(), row.Cells[4].Value.ToString(), row.Cells[7].Value.ToString(), row.Cells[6].Value.ToString());
                     }
                     isRemoveClicked = true;
                 }
@@ -362,6 +368,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (txtPrintingName.Text == string.Empty)
+            {
+                txtPrintingName.Text = txtProductName.Text;
+            }
             Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
             if (comp.validateControls(textBoxes))
             {
@@ -452,7 +462,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     double newQty = Convert.ToDouble(row[7]);
                     double totalQty = lastQty + newQty;
 
-                    query = "Update Product_Items_db set f_quantity='" + totalQty + "' where f_barcode='" + row[4] + "' and f_product_id='" + row[0] + "'";
+                    query = "Update Product_Items_db set f_quantity='" + totalQty + "',f_printing_name='" + row[6] + "' where f_barcode='" + row[4] + "' and f_product_id='" + row[0] + "'";
                     OleDbCommand updateCmd = new OleDbCommand(query, con);
                     updateCmd.ExecuteNonQuery();
                 }
@@ -483,7 +493,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         int newQty = productQty - purchaseLastQty;
                         totalNewQty = newQty + purchaseNewQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + totalNewQty + "' where f_barcode='" + row[4] + "' and f_product_id='" + row[0] + "'";
+                        query = "Update Product_Items_db set f_quantity='" + totalNewQty + "',f_printing_name='" + row[6] + "' where f_barcode='" + row[4] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -492,7 +502,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         string query = "select f_quantity from Product_Items_db where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand cmd = new OleDbCommand(query, connection);
                         productQty = Convert.ToInt32(cmd.ExecuteScalar());
-                        Console.WriteLine("Product Qty" + productQty + row[1] + row[0] + row[2]);
 
                         query = "select f_quantity from Purchase_Items_db where f_invoice_no='" + txtInvoiceNo.Text + "' and f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand cmd1 = new OleDbCommand(query, connection);
@@ -502,7 +511,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                         int newQty = productQty - purchaseLastQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "',f_printing_name='" + row[4] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -523,7 +532,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                         int newQty = productQty - purchaseLastQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "',,f_printing_name='" + row[4] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -682,7 +691,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     con.SaveOrEditItems(query);
                 }
                 ClearAll();
-                displayData();
                 AutoNumber();
             }
         }

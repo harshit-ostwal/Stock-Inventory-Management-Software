@@ -84,6 +84,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtInvoiceNo = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtInvoiceDate = new Bunifu.UI.WinForms.BunifuDatePicker();
+            this.cmbFromGodown = new System.Windows.Forms.ComboBox();
+            this.cmbToGodown = new System.Windows.Forms.ComboBox();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.cmbProductSizeNo = new System.Windows.Forms.ComboBox();
             this.txtGodownName = new System.Windows.Forms.TextBox();
@@ -116,8 +118,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.btnEdit = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnSave = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             this.btnNew = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            this.cmbFromGodown = new System.Windows.Forms.ComboBox();
-            this.cmbToGodown = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnResize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnClose)).BeginInit();
@@ -340,6 +340,43 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtInvoiceDate.Size = new System.Drawing.Size(234, 26);
             this.txtInvoiceDate.TabIndex = 142;
             this.txtInvoiceDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
+            // 
+            // cmbFromGodown
+            // 
+            this.cmbFromGodown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbFromGodown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbFromGodown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.cmbFromGodown.DropDownHeight = 120;
+            this.cmbFromGodown.DropDownWidth = 271;
+            this.cmbFromGodown.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbFromGodown.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold);
+            this.cmbFromGodown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            this.cmbFromGodown.IntegralHeight = false;
+            this.cmbFromGodown.ItemHeight = 19;
+            this.cmbFromGodown.Location = new System.Drawing.Point(536, 11);
+            this.cmbFromGodown.Name = "cmbFromGodown";
+            this.cmbFromGodown.Size = new System.Drawing.Size(248, 27);
+            this.cmbFromGodown.TabIndex = 143;
+            this.cmbFromGodown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
+            this.cmbFromGodown.Leave += new System.EventHandler(this.cmbFromGodown_Leave);
+            // 
+            // cmbToGodown
+            // 
+            this.cmbToGodown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbToGodown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cmbToGodown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.cmbToGodown.DropDownHeight = 120;
+            this.cmbToGodown.DropDownWidth = 271;
+            this.cmbToGodown.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cmbToGodown.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold);
+            this.cmbToGodown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
+            this.cmbToGodown.IntegralHeight = false;
+            this.cmbToGodown.ItemHeight = 19;
+            this.cmbToGodown.Location = new System.Drawing.Point(536, 45);
+            this.cmbToGodown.Name = "cmbToGodown";
+            this.cmbToGodown.Size = new System.Drawing.Size(248, 27);
+            this.cmbToGodown.TabIndex = 144;
+            this.cmbToGodown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
             // grpProduct
             // 
@@ -1307,43 +1344,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.btnNew.TextMarginLeft = 0;
             this.btnNew.UseDefaultRadiusAndThickness = true;
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
-            // 
-            // cmbFromGodown
-            // 
-            this.cmbFromGodown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbFromGodown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbFromGodown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.cmbFromGodown.DropDownHeight = 120;
-            this.cmbFromGodown.DropDownWidth = 271;
-            this.cmbFromGodown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cmbFromGodown.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold);
-            this.cmbFromGodown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.cmbFromGodown.IntegralHeight = false;
-            this.cmbFromGodown.ItemHeight = 19;
-            this.cmbFromGodown.Location = new System.Drawing.Point(536, 11);
-            this.cmbFromGodown.Name = "cmbFromGodown";
-            this.cmbFromGodown.Size = new System.Drawing.Size(248, 27);
-            this.cmbFromGodown.TabIndex = 143;
-            this.cmbFromGodown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
-            this.cmbFromGodown.Leave += new System.EventHandler(this.cmbFromGodown_Leave);
-            // 
-            // cmbToGodown
-            // 
-            this.cmbToGodown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.cmbToGodown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cmbToGodown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.cmbToGodown.DropDownHeight = 120;
-            this.cmbToGodown.DropDownWidth = 271;
-            this.cmbToGodown.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.cmbToGodown.Font = new System.Drawing.Font("Gilroy", 11.25F, System.Drawing.FontStyle.Bold);
-            this.cmbToGodown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(229)))), ((int)(((byte)(229)))), ((int)(((byte)(229)))));
-            this.cmbToGodown.IntegralHeight = false;
-            this.cmbToGodown.ItemHeight = 19;
-            this.cmbToGodown.Location = new System.Drawing.Point(536, 45);
-            this.cmbToGodown.Name = "cmbToGodown";
-            this.cmbToGodown.Size = new System.Drawing.Size(248, 27);
-            this.cmbToGodown.TabIndex = 144;
-            this.cmbToGodown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Key_Press);
             // 
             // FRM_STOCK_TRANSFER
             // 

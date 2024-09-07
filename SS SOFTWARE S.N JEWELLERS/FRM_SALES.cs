@@ -696,7 +696,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     con.SaveOrEditItems(query);
                 }
                 ClearAll();
-                displayData();
                 AutoNumber();
             }
         }
