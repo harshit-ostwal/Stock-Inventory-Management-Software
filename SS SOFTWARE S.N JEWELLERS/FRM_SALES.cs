@@ -321,6 +321,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (txtPrintingName.Text == string.Empty)
+            {
+                txtPrintingName.Text = txtProductName.Text;
+            }
             if (dgwItems.SelectedRows.Count > 0)
             {
                 var selectedRow = dgwItems.SelectedRows[0];
@@ -385,6 +389,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             try
             {
+                if (txtPrintingName.Text == string.Empty)
+                {
+                    txtPrintingName.Text = txtProductName.Text;
+                }
                 query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
                 int qty = Convert.ToInt32(con.FetchData(query));
                 if (qty > 1)
