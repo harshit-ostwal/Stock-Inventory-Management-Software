@@ -154,6 +154,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            if (txtPrintingName.Text == string.Empty)
+            {
+                txtPrintingName.Text = txtProductName.Text;
+            }
             if (dgwItems.Rows.Count != 0)
             {
                 dgwItems.SelectedRows[i].Cells[0].Value = cmbProductSizeNo.SelectedItem.ToString();
@@ -189,6 +193,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+            if (txtPrintingName.Text == string.Empty)
+            {
+                txtPrintingName.Text = txtProductName.Text;
+            }
             Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtPrintingName, txtQuantity };
             if (comp.validateControls(textBoxes))
             {

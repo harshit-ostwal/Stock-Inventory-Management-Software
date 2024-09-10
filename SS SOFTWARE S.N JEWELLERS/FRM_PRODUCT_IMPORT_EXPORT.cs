@@ -216,7 +216,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         for (int i = 0; i < dgwDetails.Rows.Count; i++)
                         {
                             string productID = dgwDetails.Rows[i].Cells[0].Value.ToString();
-
+                            if (dgwDetails.Rows[i].Cells[6].Value.ToString() == string.Empty)
+                            {
+                                dgwDetails.Rows[i].Cells[6].Value = dgwDetails.Rows[i].Cells[1].Value.ToString();
+                            }
                             if (isFirstOccurrence || productID != previousProductID)
                             {
                                 dt2.Rows.Add(dgwDetails.Rows[i].Cells[0].Value.ToString(), dgwDetails.Rows[i].Cells[1].Value.ToString(), dgwDetails.Rows[i].Cells[2].Value.ToString(), dgwDetails.Rows[i].Cells[3].Value.ToString());
