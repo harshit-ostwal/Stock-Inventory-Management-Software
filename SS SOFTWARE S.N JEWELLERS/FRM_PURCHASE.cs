@@ -15,6 +15,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         string query;
         string validate;
         int i = 0;
+        static ReportDocument cr = new ReportDocument();
+        FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Barcode Printing");
 
         public FRM_PURCHASE()
         {
@@ -27,10 +29,12 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             dt.Columns.Add("Product Size No", typeof(string));
             dt.Columns.Add("Printing Name", typeof(string));
             dt.Columns.Add("Quantity", typeof(int));
+
             dt2.Columns.Add("Product ID", typeof(string));
             dt2.Columns.Add("Barcode", typeof(string));
             dt2.Columns.Add("Quantity", typeof(int));
             dt2.Columns.Add("Printing Name", typeof(string));
+
             dt3.Columns.Add("Product ID", typeof(string));
             dt3.Columns.Add("Barcode", typeof(string));
             dt3.Columns.Add("Quantity", typeof(int));
@@ -131,7 +135,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void ClearProduct()
         {
             comp.Clear(new Control[] { txtProductName, txtProductId, txtProductCategoryName, txtGodownName, txtBarcode, cmbProductSizeNo, txtPrintingName, txtQuantity });
-            displayProductData();
             dgwProduct.Hide();
             btnAdd.Enabled = true;
             CalculateTotal();
@@ -142,7 +145,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             cmbProductSizeNo.Text = "";
             txtQuantity.Text = "";
-            displayProductData();
             dgwProduct.Hide();
             btnAdd.Enabled = true;
             CalculateTotal();
@@ -298,10 +300,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 else
                 {
                     dgwProduct.Hide();
+                    getItems();
                     SendKeys.Send("{TAB}");
                 }
             }
-            getItems();
         }
 
         private void Enter_Key_Press(object sender, KeyEventArgs e)
@@ -511,7 +513,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                         int newQty = productQty - purchaseLastQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + newQty + "',f_printing_name='" + row[4] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "',f_printing_name='" + row[3] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -532,7 +534,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                         int newQty = productQty - purchaseLastQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + newQty + "',,f_printing_name='" + row[4] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
+                        query = "Update Product_Items_db set f_quantity='" + newQty + "',f_printing_name='" + row[3] + "' where f_barcode='" + row[1] + "' and f_product_id='" + row[0] + "'";
                         OleDbCommand updateCmd = new OleDbCommand(query, connection);
                         updateCmd.ExecuteNonQuery();
                     }
@@ -555,25 +557,24 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             if (MessageBox.Show("Do You Want To Print Qr Code", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                ReportDocument cr = new ReportDocument();
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
                 cr.Load(Application.StartupPath + "/REPORTS/CRY_BARCODE_PRINTING.rpt");
-                FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Barcode Printing");
-                DataSet ds2 = new DataSet();
-                DataTable dt3 = new DataTable();
-                dt3.Columns.Add("Size No");
-                dt3.Columns.Add("Barcode");
-                dt3.Columns.Add("Printing Name");
+                dt.Columns.Add("Size No");
+                dt.Columns.Add("Barcode");
+                dt.Columns.Add("Printing Name");
+
                 foreach (DataGridViewRow dgwBarcode in dgwItems.Rows)
                 {
                     int quantity = Convert.ToInt32(dgwBarcode.Cells[7].Value);
                     for (int i = 0; i < quantity; i++)
                     {
-                        dt3.Rows.Add(dgwBarcode.Cells[5].Value, dgwBarcode.Cells[4].Value, dgwBarcode.Cells[6].Value);
+                        dt.Rows.Add(dgwBarcode.Cells[5].Value, dgwBarcode.Cells[4].Value, dgwBarcode.Cells[6].Value);
                     }
                 }
-                ds2.Tables.Add(dt3);
-                ds2.WriteXmlSchema("Barcode Printing.xml");
-                cr.SetDataSource(ds2);
+                ds.Tables.Add(dt);
+                ds.WriteXmlSchema("Barcode Printing.xml");
+                cr.SetDataSource(ds);
                 View_Daily_Reports.ShowDialog();
             }
         }

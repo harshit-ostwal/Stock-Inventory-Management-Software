@@ -130,7 +130,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void ClearProduct()
         {
             comp.Clear(new Control[] { txtBarcode, txtProductName, txtProductId, txtProductCategoryName, txtGodownName, cmbProductSizeNo, txtPrintingName, txtQuantity });
-            displayProductData();
             txtQuantity.Text = "1";
             dgwProduct.Hide();
             btnAdd.Enabled = true;
@@ -303,10 +302,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 else
                 {
                     dgwProduct.Hide();
+                    getItems();
                     SendKeys.Send("{TAB}");
                 }
             }
-            getItems();
         }
 
         private void Enter_Key_Press(object sender, KeyEventArgs e)

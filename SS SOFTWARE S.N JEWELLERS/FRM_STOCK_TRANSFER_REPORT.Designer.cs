@@ -104,7 +104,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.panel1.Location = new System.Drawing.Point(46, 73);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(670, 85);
-            this.panel1.TabIndex = 26;
+            this.panel1.TabIndex = 1;
             // 
             // btnStockTransferReport
             // 
@@ -164,7 +164,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             stateProperties2.IconRightImage = null;
             this.btnStockTransferReport.OnPressedState = stateProperties2;
             this.btnStockTransferReport.Size = new System.Drawing.Size(143, 45);
-            this.btnStockTransferReport.TabIndex = 147;
+            this.btnStockTransferReport.TabIndex = 3;
             this.btnStockTransferReport.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnStockTransferReport.TextMarginLeft = 0;
             this.btnStockTransferReport.UseDefaultRadiusAndThickness = true;
@@ -198,7 +198,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtToDate.MinimumSize = new System.Drawing.Size(140, 26);
             this.txtToDate.Name = "txtToDate";
             this.txtToDate.Size = new System.Drawing.Size(234, 26);
-            this.txtToDate.TabIndex = 144;
+            this.txtToDate.TabIndex = 2;
+            this.txtToDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Only);
             // 
             // txtFromDate
             // 
@@ -228,7 +229,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             this.txtFromDate.MinimumSize = new System.Drawing.Size(140, 26);
             this.txtFromDate.Name = "txtFromDate";
             this.txtFromDate.Size = new System.Drawing.Size(234, 26);
-            this.txtFromDate.TabIndex = 143;
+            this.txtFromDate.TabIndex = 1;
+            this.txtFromDate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Enter_Only);
             // 
             // label3
             // 

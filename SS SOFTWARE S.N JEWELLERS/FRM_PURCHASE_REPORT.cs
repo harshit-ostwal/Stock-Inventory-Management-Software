@@ -67,5 +67,10 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         {
             comp.Close(this, e);
         }
+
+        private void Enter_Only(object sender, KeyEventArgs e)
+        {
+            comp.Enter(sender, e);
+        }
     }
 }

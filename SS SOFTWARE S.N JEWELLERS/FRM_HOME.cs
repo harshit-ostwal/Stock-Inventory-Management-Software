@@ -19,13 +19,13 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             lblDate.Text = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss ");
         }
 
-        private void FRM_HOME_Load(object sender, EventArgs e)
+        private async void FRM_HOME_Load(object sender, EventArgs e)
         {
             dateTimer.Start();
             string query = "Select f_company_name from Company_db";
-            lblCompanyName.Text = con.FetchData(query);
+            lblCompanyName.Text = await con.FetchData(query);
             string query1 = "Select f_email_id from Company_db";
-            lblEmail.Text = con.FetchData(query1);
+            lblEmail.Text = await con.FetchData(query1);
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
@@ -188,6 +188,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             comp.ShortcutKey(Keys.F1, bunifuButton3, e);
             comp.ShortcutKey(Keys.F2, bunifuButton1, e);
             comp.ShortcutKey(Keys.F3, bunifuButton2, e);
+            comp.ShortcutKey(Keys.F4, bunifuButton4, e);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -235,6 +236,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         private void btnPurchaseWiseReport_Click(object sender, EventArgs e)
         {
             OpenForm(new FRM_PURCHASE_WISE_REPORT());
+        }
+
+        private void bunifuButton4_Click(object sender, EventArgs e)
+        {
+            OpenForm(new FRM_STOCK_TRANSFER());
         }
     }
 }
