@@ -86,7 +86,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         public async void AutoNumber(string query, TextBox txtBox)
         {
             string prefixLen = "select f_prefix_length from Admin_db";
-            int length = Convert.ToInt32(FetchAdminData(prefixLen));
+            int length = Convert.ToInt32(await FetchAdminData(prefixLen));
             using (OleDbConnection con = new OleDbConnection(Main))
             {
                 try
@@ -139,25 +139,45 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        public string FetchData(string query)
+        public async Task<string> FetchData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Main))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                object data = cmd.ExecuteScalar();
-                return data != null ? data.ToString() : string.Empty;
+                try
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        object data = await cmd.ExecuteScalarAsync();
+                        return data != null ? data.ToString() : string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
             }
         }
 
-        public string FetchAdminData(string query)
+        public async Task<string> FetchAdminData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Settings))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                object data = cmd.ExecuteScalar();
-                return data != null ? data.ToString() : string.Empty;
+                try
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        object data = await cmd.ExecuteScalarAsync();
+                        return data != null ? data.ToString() : string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
             }
         }
 
