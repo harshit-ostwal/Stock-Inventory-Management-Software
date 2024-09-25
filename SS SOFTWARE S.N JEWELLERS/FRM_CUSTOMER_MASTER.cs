@@ -132,7 +132,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 ClearAll();
                 grpCustomer.Text = "View";
                 displayData();
-                AutoNumber();
             }
             else
             {

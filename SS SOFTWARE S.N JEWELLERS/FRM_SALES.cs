@@ -386,67 +386,60 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
+            if (txtPrintingName.Text == string.Empty)
             {
-                if (txtPrintingName.Text == string.Empty)
+                txtPrintingName.Text = txtProductName.Text;
+            }
+            query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
+            int qty = Convert.ToInt32(con.FetchData(query));
+            if (qty > 1)
+            {
+                Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
+                if (comp.validateControls(textBoxes))
                 {
-                    txtPrintingName.Text = txtProductName.Text;
-                }
-                query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
-                int qty = Convert.ToInt32(con.FetchData(query));
-                if (qty > 1)
-                {
-                    Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
-                    if (comp.validateControls(textBoxes))
+                    bool itemExists = false;
+                    foreach (DataGridViewRow row in dgwItems.Rows)
                     {
-                        bool itemExists = false;
-                        foreach (DataGridViewRow row in dgwItems.Rows)
+                        if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[4].Value.ToString() == cmbProductSizeNo.Text)
                         {
-                            if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[4].Value.ToString() == cmbProductSizeNo.Text)
-                            {
-                                double lastQty = double.Parse(row.Cells[7].Value.ToString());
-                                double newQty = lastQty + double.Parse(txtQuantity.Text);
-                                row.Cells[7].Value = newQty.ToString();
-                                itemExists = true;
-                                ClearProduct();
-                                break;
-                            }
+                            double lastQty = double.Parse(row.Cells[7].Value.ToString());
+                            double newQty = lastQty + double.Parse(txtQuantity.Text);
+                            row.Cells[7].Value = newQty.ToString();
+                            itemExists = true;
+                            ClearProduct();
+                            break;
                         }
-                        if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    }
+                    if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        if (!itemExists)
                         {
-                            if (!itemExists)
-                            {
-                                dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                                ClearProduct();
-                            }
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
 
-                            txtBarcode.Focus();
-                        }
-                        else
-                        {
-                            if (!itemExists)
-                            {
-                                dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                                ClearProduct();
-                            }
-                            txtBarcode.Focus();
-                        }
+                        txtBarcode.Focus();
                     }
                     else
                     {
-                        btnSave.Focus();
+                        if (!itemExists)
+                        {
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
+                        txtBarcode.Focus();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgwProduct.Hide();
-                    ClearProduct();
+                    btnSave.Focus();
                 }
             }
-            catch
+            else
             {
-                btnSave.Focus();
+                MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgwProduct.Hide();
+                ClearProduct();
             }
         }
 
@@ -477,7 +470,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 ClearAll();
                 grpProduct.Text = "View";
                 displayData();
-                AutoNumber();
             }
             else
             {

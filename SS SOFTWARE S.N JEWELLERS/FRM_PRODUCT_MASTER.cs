@@ -198,7 +198,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 ClearAll();
                 grpProduct.Text = "View";
                 displayData();
-                AutoNumber();
             }
             else
             {

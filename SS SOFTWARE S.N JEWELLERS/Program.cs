@@ -27,7 +27,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     }
                     else
                     {
-                        Application.Run(new FRM_LOGIN());
+                        Application.Run(new FRM_HOME());
                     }
                 }
                 else
