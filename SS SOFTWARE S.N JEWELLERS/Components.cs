@@ -43,7 +43,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        public string GetBarcode(TextBox txtProductName, ComboBox cmbCategoryName, ComboBox cmbSizeNo)
+        public async Task<string> GetBarcode(TextBox txtProductName, ComboBox cmbCategoryName, ComboBox cmbSizeNo)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 barcode = $"{productCode}-{categoryCode}-{sizeNo.ToUpper()}";
 
                 string query = "Select f_barcode from Product_Items_db Where f_barcode = '" + barcode + "'";
-                string foundOrNot = con.FetchData(query);
+                string foundOrNot = await con.FetchData(query);
 
                 Random random = new Random();
 
@@ -123,7 +123,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
                     query = "Select f_barcode from Product_Items_db Where f_barcode = '" + barcode + "'";
 
-                    foundOrNot = con.FetchData(query);
+                    foundOrNot = await con.FetchData(query);
                 }
 
                 return barcode;

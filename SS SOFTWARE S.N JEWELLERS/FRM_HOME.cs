@@ -19,13 +19,13 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             lblDate.Text = DateTime.Now.ToString("dd-MM-yyyy hh:mm:ss ");
         }
 
-        private void FRM_HOME_Load(object sender, EventArgs e)
+        private async void FRM_HOME_Load(object sender, EventArgs e)
         {
             dateTimer.Start();
             string query = "Select f_company_name from Company_db";
-            lblCompanyName.Text = con.FetchData(query);
+            lblCompanyName.Text = await con.FetchData(query);
             string query1 = "Select f_email_id from Company_db";
-            lblEmail.Text = con.FetchData(query1);
+            lblEmail.Text = await con.FetchData(query1);
         }
 
         private void btnSettings_Click(object sender, EventArgs e)

@@ -497,6 +497,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
             comp.ShortcutKey(Keys.F1, btnNew, e);
             comp.ShortcutKey(Keys.F2, btnSave, e);
+            comp.ShortcutKey(Keys.F3, btnDelete, e);
+            comp.ShortcutKey(Keys.F4, btnView, e);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -519,7 +521,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             comp.Enter(sender, e);
         }
 
-        private void SaveItems()
+        private async void SaveItems()
         {
             string query;
             TextBox ProductID = new TextBox();
@@ -569,7 +571,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     int Count2 = Convert.ToInt32(con.FetchData(query));
 
                     query = "Select f_product_id from Product_db Where f_godown_name='" + cmbToGodown.Text + "' and f_product_name='" + row[1] + "'";
-                    string productid = con.FetchData(query);
+                    string productid = await con.FetchData(query);
 
                     if (Count2 == 0)
                     {
@@ -612,7 +614,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             AutoNumber();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (grpProduct.Text == "View")
             {
@@ -625,7 +627,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         int ProductQty = Convert.ToInt32(con.FetchData(query));
 
                         query = "Select f_product_id from Product_db Where f_godown_name='" + cmbToGodown.Text + "' and f_product_name='" + dgwItems.Rows[i].Cells[1].Value + "'";
-                        string productid = con.FetchData(query);
+                        string productid = await con.FetchData(query);
 
                         query = "select f_quantity from Product_Items_db where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + productid + "'";
                         int NewProductQty = Convert.ToInt32(con.FetchData(query));
