@@ -409,13 +409,13 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        private void cmbProductSizeNo_Leave(object sender, EventArgs e)
+        private async void cmbProductSizeNo_Leave(object sender, EventArgs e)
         {
             try
             {
                 if (comp.validateControls(new Control[] { txtProductName, cmbProductCategoryName }))
                 {
-                    txtBarcode.Text = comp.GetBarcode(txtProductName, cmbProductCategoryName, cmbProductSizeNo);
+                    txtBarcode.Text = await comp.GetBarcode(txtProductName, cmbProductCategoryName, cmbProductSizeNo);
                 }
             }
             catch

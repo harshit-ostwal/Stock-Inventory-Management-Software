@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Data.OleDb;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SS_SOFTWARE_S.N_JEWELLERS
@@ -18,9 +19,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         // Initialize The Connection
         public OleDbCommand cmd = new OleDbCommand();
         public DataSet ds = new DataSet();
-        public OleDbDataReader dr;
 
-        public void Login(BunifuTextBox txtUserName, BunifuTextBox txtPassword, NotifyIcon notifyIcon, Form Login)
+        public async void Login(BunifuTextBox txtUserName, BunifuTextBox txtPassword, NotifyIcon notifyIcon, Form Login)
         {
             string query = "Select f_user_name,f_password FROM Login_db Where f_user_name = @username AND f_password = @password";
 
@@ -28,25 +28,22 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 try
                 {
-                    con.Open();
+                    await con.OpenAsync();
                     using (OleDbCommand cmd = new OleDbCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@username", txtUserName.Text);
                         cmd.Parameters.AddWithValue("@password", txtPassword.Text);
 
-                        using (OleDbDataReader dr = cmd.ExecuteReader())
+                        using (OleDbDataReader dr = (OleDbDataReader)await cmd.ExecuteReaderAsync())
                         {
-                            if (dr.Read())
+                            while (await dr.ReadAsync())
                             {
                                 notifyIcon.ShowBalloonTip(100);
                                 MessageBox.Show("SignIn Successfull👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 Login.Hide();
                                 FRM_HOME Home = new FRM_HOME();
                                 Home.Show();
-                            }
-                            else
-                            {
-                                MessageBox.Show("Incorrect User Name/Password❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
                             }
                         }
                     }
@@ -57,174 +54,232 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     MessageBox.Show("An Error Occured While SignIn❔👎" + err, "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            MessageBox.Show("Incorrect User Name/Password❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        public void GetId(string query, TextBox txtBox)
+        public async void GetId(string query, TextBox txtBox)
         {
             using (OleDbConnection con = new OleDbConnection(Settings))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                dr = cmd.ExecuteReader();
-                while (dr.Read())
+                try
                 {
-                    txtBox.Text = dr.GetValue(0).ToString();
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        using (OleDbDataReader dr = (OleDbDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            while (await dr.ReadAsync())
+                            {
+                                txtBox.Text = dr.GetValue(0).ToString();
+                            }
+                        }
+                    }
                 }
-                con.Close();
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        public void AutoNumber(string query, TextBox txtBox)
+        public async void AutoNumber(string query, TextBox txtBox)
         {
             string prefixLen = "select f_prefix_length from Admin_db";
-            int length = Convert.ToInt32(FetchAdminData(prefixLen));
+            int length = Convert.ToInt32(await FetchAdminData(prefixLen));
             using (OleDbConnection con = new OleDbConnection(Main))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                var maxid = cmd.ExecuteScalar() as string;
-                if (maxid == null)
+                try
                 {
-                    txtBox.Text = txtBox.Text + "0001";
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        var maxid = await cmd.ExecuteScalarAsync() as string;
+                        if (maxid == null)
+                        {
+                            txtBox.Text = txtBox.Text + "0001";
+                        }
+                        else
+                        {
+                            double i = double.Parse(maxid.Substring(length));
+                            i++;
+                            txtBox.Text = string.Format("" + txtBox.Text + "" + "{0:0000}", i++);
+                        }
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    double i = double.Parse(maxid.Substring(length));
-                    i++;
-                    txtBox.Text = string.Format("" + txtBox.Text + "" + "{0:0000}", i++);
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        public void GetItems(string query, ComboBox cmbBoxes)
+        public async void GetItems(string query, ComboBox cmbBoxes)
         {
             using (OleDbConnection con = new OleDbConnection(Main))
             {
-                con.Open();
-                OleDbCommand cmd = new OleDbCommand(query, con);
-                OleDbDataReader dr = cmd.ExecuteReader();
-
-                while (dr.Read())
+                try
                 {
-                    cmbBoxes.Items.Add(dr[0].ToString());
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        using (OleDbDataReader dr = (OleDbDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            while (await dr.ReadAsync())
+                            {
+                                cmbBoxes.Items.Add(dr[0].ToString());
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        public string FetchData(string query)
+        public async Task<string> FetchData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Main))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                object data = cmd.ExecuteScalar();
-                return data != null ? data.ToString() : string.Empty;
+                try
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        object data = await cmd.ExecuteScalarAsync();
+                        return data != null ? data.ToString() : string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
             }
         }
 
-        public string FetchAdminData(string query)
+        public async Task<string> FetchAdminData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Settings))
             {
-                con.Open();
-                cmd = new OleDbCommand(query, con);
-                object data = cmd.ExecuteScalar();
-                return data != null ? data.ToString() : string.Empty;
+                try
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        object data = await cmd.ExecuteScalarAsync();
+                        return data != null ? data.ToString() : string.Empty;
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return string.Empty;
+                }
             }
         }
 
-        public void FetchAdminData(Control[] controls, string query)
+        public async void FetchAdminData(Control[] controls, string query)
         {
             try
             {
                 using (OleDbConnection con = new OleDbConnection(Settings))
                 {
-                    con.Open();
-                    OleDbCommand cmd = new OleDbCommand(query, con);
-                    OleDbDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.Read())
-                    {
-                        for (int i = 0; i < controls.Length; i++)
-                        {
-                            controls[i].Text = dr[i].ToString();
-                        }
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        public void FetchData(Control[] controls, string query)
-        {
-            try
-            {
-                using (OleDbConnection con = new OleDbConnection(Main))
-                {
-                    con.Open();
-                    OleDbCommand cmd = new OleDbCommand(query, con);
-                    OleDbDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.Read())
-                    {
-                        for (int i = 0; i < controls.Length; i++)
-                        {
-                            controls[i].Text = dr[i].ToString();
-                        }
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        public void SaveOrEditItems(string query)
-        {
-            try
-            {
-                using (OleDbConnection con = new OleDbConnection(Main))
-                {
-                    con.Open();
+                    await con.OpenAsync();
                     using (OleDbCommand cmd = new OleDbCommand(query, con))
                     {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        public void AdminSaveOrEdit(string query)
-        {
-            try
-            {
-                using (OleDbConnection con = new OleDbConnection(Settings))
-                {
-                    con.Open();
-                    using (OleDbCommand cmd = new OleDbCommand(query, con))
-                    {
-                        cmd.ExecuteNonQuery();
+                        using (OleDbDataReader dr = (OleDbDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            if (await dr.ReadAsync())
+                            {
+                                for (int i = 0; i < controls.Length; i++)
+                                {
+                                    controls[i].Text = dr[i].ToString();
+                                }
+                            }
+                        }
                     }
                 }
             }
             catch (Exception)
             {
+                MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void GetData(string query, DataGridView dgw, string[] headerText)
+        public async void FetchData(Control[] controls, string query)
+        {
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(Main))
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        using (OleDbDataReader dr = (OleDbDataReader)await cmd.ExecuteReaderAsync())
+                        {
+                            if (await dr.ReadAsync())
+                            {
+                                for (int i = 0; i < controls.Length; i++)
+                                {
+                                    controls[i].Text = dr[i].ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async void SaveOrEditItems(string query)
+        {
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(Main))
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async void AdminSaveOrEdit(string query)
+        {
+            try
+            {
+                using (OleDbConnection con = new OleDbConnection(Settings))
+                {
+                    await con.OpenAsync();
+                    using (OleDbCommand cmd = new OleDbCommand(query, con))
+                    {
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("An Error Occured ?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async void GetData(string query, DataGridView dgw, string[] headerText)
         {
             DataSet ds = new DataSet();
             OleDbDataAdapter ad = new OleDbDataAdapter(query, Main);
-            ad.Fill(ds);
+            await Task.Run(() => ad.Fill(ds));
             dgw.DataSource = ds.Tables[0];
             for (int i = 0; i < dgw.Columns.Count; i++)
             {
