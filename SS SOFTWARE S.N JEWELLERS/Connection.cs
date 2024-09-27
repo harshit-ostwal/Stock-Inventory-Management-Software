@@ -86,7 +86,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         public async void AutoNumber(string query, TextBox txtBox)
         {
             string prefixLen = "select f_prefix_length from Admin_db";
-            int length = Convert.ToInt32(await FetchAdminData(prefixLen));
+            int length = Convert.ToInt32(FetchAdminData(prefixLen));
             using (OleDbConnection con = new OleDbConnection(Main))
             {
                 try
@@ -139,16 +139,16 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        public async Task<string> FetchData(string query)
+        public string FetchData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Main))
             {
                 try
                 {
-                    await con.OpenAsync();
+                    con.Open();
                     using (OleDbCommand cmd = new OleDbCommand(query, con))
                     {
-                        object data = await cmd.ExecuteScalarAsync();
+                        object data = cmd.ExecuteScalar();
                         return data != null ? data.ToString() : string.Empty;
                     }
                 }
@@ -160,16 +160,16 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
-        public async Task<string> FetchAdminData(string query)
+        public string FetchAdminData(string query)
         {
             using (OleDbConnection con = new OleDbConnection(Settings))
             {
                 try
                 {
-                    await con.OpenAsync();
+                    con.Open();
                     using (OleDbCommand cmd = new OleDbCommand(query, con))
                     {
-                        object data = await cmd.ExecuteScalarAsync();
+                        object data = cmd.ExecuteScalar();
                         return data != null ? data.ToString() : string.Empty;
                     }
                 }

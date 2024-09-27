@@ -181,63 +181,60 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            try
+            if (txtPrintingName.Text == string.Empty)
             {
-                query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
-                int qty = Convert.ToInt32(con.FetchData(query));
-                if (qty > 1)
+                txtPrintingName.Text = txtProductName.Text;
+            }
+            query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
+            int qty = Convert.ToInt32(con.FetchData(query));
+            if (qty > 1)
+            {
+                Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
+                if (comp.validateControls(textBoxes))
                 {
-                    Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
-                    if (comp.validateControls(textBoxes))
+                    bool itemExists = false;
+                    foreach (DataGridViewRow row in dgwItems.Rows)
                     {
-                        bool itemExists = false;
-                        foreach (DataGridViewRow row in dgwItems.Rows)
+                        if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[4].Value.ToString() == cmbProductSizeNo.Text)
                         {
-                            if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[4].Value.ToString() == cmbProductSizeNo.Text)
-                            {
-                                double lastQty = double.Parse(row.Cells[7].Value.ToString());
-                                double newQty = lastQty + double.Parse(txtQuantity.Text);
-                                row.Cells[7].Value = newQty.ToString();
-                                itemExists = true;
-                                ClearProduct();
-                                break;
-                            }
+                            double lastQty = double.Parse(row.Cells[7].Value.ToString());
+                            double newQty = lastQty + double.Parse(txtQuantity.Text);
+                            row.Cells[7].Value = newQty.ToString();
+                            itemExists = true;
+                            ClearProduct();
+                            break;
                         }
-                        if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    }
+                    if (MessageBox.Show("Do You Wanna Add One More Details?", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        if (!itemExists)
                         {
-                            if (!itemExists)
-                            {
-                                dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                                ClearProduct2();
-                            }
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
 
-                            txtBarcode.Focus();
-                        }
-                        else
-                        {
-                            if (!itemExists)
-                            {
-                                dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
-                                ClearProduct();
-                            }
-                            txtBarcode.Focus();
-                        }
+                        txtBarcode.Focus();
                     }
                     else
                     {
-                        btnSave.Focus();
+                        if (!itemExists)
+                        {
+                            dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
+                            ClearProduct();
+                        }
+                        txtBarcode.Focus();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    dgwProduct.Hide();
-                    ClearProduct();
+                    btnSave.Focus();
                 }
             }
-            catch
+            else
             {
-                btnSave.Focus();
+                MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dgwProduct.Hide();
+                ClearProduct();
             }
         }
 
@@ -521,7 +518,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             comp.Enter(sender, e);
         }
 
-        private async void SaveItems()
+        private void SaveItems()
         {
             string query;
             TextBox ProductID = new TextBox();
@@ -571,7 +568,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     int Count2 = Convert.ToInt32(con.FetchData(query));
 
                     query = "Select f_product_id from Product_db Where f_godown_name='" + cmbToGodown.Text + "' and f_product_name='" + row[1] + "'";
-                    string productid = await con.FetchData(query);
+                    string productid = con.FetchData(query);
 
                     if (Count2 == 0)
                     {
@@ -599,9 +596,47 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 validate = "Select * from Stock_Transfer_db where f_invoice_no ='" + txtInvoiceNo.Text + "'";
                 query = "Insert into Stock_Transfer_db (f_invoice_no,f_invoice_date,f_from_godown,f_to_godown) values ('" + txtInvoiceNo.Text + "','" + txtInvoiceDate.Text + "','" + cmbFromGodown.Text + "','" + cmbToGodown.Text + "')";
-                if (con.SaveData(query, validate))
+
+                try
                 {
-                    SaveItems();
+                    if (MessageBox.Show("Do You Wanna Save Data❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                    {
+                        using (OleDbConnection con = new OleDbConnection(Main))
+                        {
+                            con.Open();
+                            using (OleDbCommand cmd = new OleDbCommand(validate, con))
+                            {
+                                int Count = Convert.ToInt32(cmd.ExecuteScalar());
+                                if (Count > 1)
+                                {
+                                    MessageBox.Show("Data Already Exist?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    if (MessageBox.Show("Do You Wanna Save Data❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                                    {
+                                        cmd.CommandText = query;
+                                        cmd.ExecuteNonQuery();
+                                        SaveItems();
+                                        con.Close();
+                                        MessageBox.Show("Data Creation Successfull👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    }
+                                    else
+                                    {
+                                    }
+                                }
+                                else
+                                {
+                                    cmd.CommandText = query;
+                                    cmd.ExecuteNonQuery();
+                                    SaveItems();
+                                    con.Close();
+                                    MessageBox.Show("Data Creation Successfull👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured While Data Creation?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 ClearAll();
                 AutoNumber();
@@ -614,39 +649,63 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             AutoNumber();
         }
 
-        private async void btnDelete_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
             if (grpProduct.Text == "View")
             {
-                query = "Delete From Stock_Transfer_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
-                if (con.DeleteData(query, dgwDetails))
+                try
                 {
-                    for (int i = 0; i < dgwItems.Rows.Count; i++)
+                    query = "Delete From Stock_Transfer_db Where ID =" + dgwDetails.SelectedRows[i].Cells[0].Value.ToString() + "";
+                    if (dgwDetails.Rows.Count > 0 && dgwDetails.SelectedRows.Count > 0)
                     {
-                        query = "select f_quantity from Product_Items_db where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
-                        int ProductQty = Convert.ToInt32(con.FetchData(query));
+                        if (MessageBox.Show("Do You Wanna Delete Data❔", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            using (OleDbConnection con1 = new OleDbConnection(Main))
+                            {
+                                con1.Open();
+                                using (OleDbCommand cmd = new OleDbCommand(query, con1))
+                                {
+                                    cmd.ExecuteNonQuery();
+                                }
+                                con1.Close();
+                                for (int i = 0; i < dgwItems.Rows.Count; i++)
+                                {
+                                    query = "select f_quantity from Product_Items_db where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
+                                    int ProductQty = Convert.ToInt32(con.FetchData(query));
 
-                        query = "Select f_product_id from Product_db Where f_godown_name='" + cmbToGodown.Text + "' and f_product_name='" + dgwItems.Rows[i].Cells[1].Value + "'";
-                        string productid = await con.FetchData(query);
+                                    query = "Select f_product_id from Product_db Where f_godown_name='" + cmbToGodown.Text + "' and f_product_name='" + dgwItems.Rows[i].Cells[1].Value + "'";
+                                    string productid = con.FetchData(query);
 
-                        query = "select f_quantity from Product_Items_db where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + productid + "'";
-                        int NewProductQty = Convert.ToInt32(con.FetchData(query));
+                                    query = "select f_quantity from Product_Items_db where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + productid + "'";
+                                    int NewProductQty = Convert.ToInt32(con.FetchData(query));
 
-                        query = "select f_quantity from Stock_Transfer_Items_db where f_invoice_no='" + txtInvoiceNo.Text + "' and f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
-                        int TransferQty = Convert.ToInt32(con.FetchData(query));
+                                    query = "select f_quantity from Stock_Transfer_Items_db where f_invoice_no='" + txtInvoiceNo.Text + "' and f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
+                                    int TransferQty = Convert.ToInt32(con.FetchData(query));
 
-                        int newQty = ProductQty + TransferQty;
+                                    int newQty = ProductQty + TransferQty;
 
-                        int NewQty = NewProductQty - TransferQty;
+                                    int NewQty = NewProductQty - TransferQty;
 
-                        query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
-                        con.SaveOrEditItems(query);
+                                    query = "Update Product_Items_db set f_quantity='" + newQty + "' where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + dgwItems.Rows[i].Cells[0].Value + "'";
+                                    con.SaveOrEditItems(query);
 
-                        query = "Update Product_Items_db set f_quantity='" + NewQty + "' where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + productid + "'";
-                        con.SaveOrEditItems(query);
+                                    query = "Update Product_Items_db set f_quantity='" + NewQty + "' where f_barcode='" + dgwItems.Rows[i].Cells[4].Value + "' and f_product_id='" + productid + "'";
+                                    con.SaveOrEditItems(query);
+                                }
+                                query = "delete from Stock_Transfer_Items_db where f_invoice_no = '" + dgwDetails.SelectedRows[i].Cells[1].Value.ToString() + "'";
+                                con.SaveOrEditItems(query);
+                                MessageBox.Show("Data Deletion Successfull👍", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
                     }
-                    query = "delete from Stock_Transfer_Items_db where f_invoice_no = '" + dgwDetails.SelectedRows[i].Cells[1].Value.ToString() + "'";
-                    con.SaveOrEditItems(query);
+                    else
+                    {
+                        MessageBox.Show("Please Select Data For Deletion?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("An Error Occured While Data Deletion?👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 ClearAll();
                 AutoNumber();
