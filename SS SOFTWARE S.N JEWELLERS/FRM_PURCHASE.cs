@@ -398,7 +398,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         ClearProduct2();
                     }
 
-                    txtProductName.Focus();
+                    cmbProductSizeNo.Focus();
                 }
                 else
                 {

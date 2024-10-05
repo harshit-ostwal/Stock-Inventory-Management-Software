@@ -148,6 +148,12 @@
       <DependentUpon>CRY_CUSTOMER_REPORT.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CRY_SALES.cs">
+      <DependentUpon>CRY_SALES.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CRY_PURCHAE_WISE_REPORT.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -379,6 +385,10 @@
     <EmbeddedResource Include="CRY_CUSTOMER_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CRY_CUSTOMER_REPORT.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRY_SALES.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CRY_SALES.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="CRY_PURCHAE_WISE_REPORT.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

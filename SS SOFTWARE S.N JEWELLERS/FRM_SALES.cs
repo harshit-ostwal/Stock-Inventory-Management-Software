@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using System;
 using System.Data;
 using System.Data.OleDb;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
         string query;
         string validate;
         int i = 0;
+        static ReportDocument cr = new ReportDocument();
+        FRM_VIEW_REPORTS View_Daily_Reports = new FRM_VIEW_REPORTS(cr, "Sales Bill");
 
         public FRM_SALES()
         {
@@ -136,6 +139,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             CalculateTotal();
             barcode = false;
         }
+
         private void getItems()
         {
             cmbProductSizeNo.Items.Clear();
@@ -196,7 +200,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 {
                     query = "select f_quantity from Product_Items_db where f_barcode='" + dgwProduct.SelectedRows[i].Cells[4].Value + "' And f_product_id ='" + dgwProduct.SelectedRows[i].Cells[0].Value + "' And f_product_size_no='" + dgwProduct.SelectedRows[i].Cells[5].Value + "'";
                     int qty = Convert.ToInt32(con.FetchData(query));
-                    if (qty > 1)
+                    if (qty > 0)
                     {
                         bool itemExists = false;
                         foreach (DataGridViewRow row in dgwItems.Rows)
@@ -220,6 +224,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         {
                             dt.Rows.Add(dgwProduct.SelectedRows[i].Cells[0].Value.ToString(), dgwProduct.SelectedRows[i].Cells[1].Value.ToString(), dgwProduct.SelectedRows[i].Cells[2].Value.ToString(), dgwProduct.SelectedRows[i].Cells[3].Value.ToString(), dgwProduct.SelectedRows[i].Cells[4].Value.ToString(), dgwProduct.SelectedRows[i].Cells[5].Value.ToString(), dgwProduct.SelectedRows[i].Cells[6].Value.ToString(), 1);
                             ClearProduct();
+                            dgwProduct.Hide();
                         }
                     }
                     else
@@ -390,17 +395,18 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
                 txtPrintingName.Text = txtProductName.Text;
             }
-            query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
-            int qty = Convert.ToInt32(con.FetchData(query));
-            if (qty > 1)
+            Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
+            if (comp.validateControls(textBoxes))
             {
-                Control[] textBoxes = { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtQuantity };
-                if (comp.validateControls(textBoxes))
+                query = "select f_quantity from Product_Items_db where f_product_id='" + txtProductId.Text + "' and f_product_size_no='" + cmbProductSizeNo.Text + "'";
+                int qty = Convert.ToInt32(con.FetchData(query));
+
+                if (qty > 0)
                 {
                     bool itemExists = false;
                     foreach (DataGridViewRow row in dgwItems.Rows)
                     {
-                        if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[4].Value.ToString() == cmbProductSizeNo.Text)
+                        if (row.Cells[0].Value.ToString() == txtProductId.Text && row.Cells[5].Value.ToString() == cmbProductSizeNo.Text)
                         {
                             double lastQty = double.Parse(row.Cells[7].Value.ToString());
                             double newQty = lastQty + double.Parse(txtQuantity.Text);
@@ -416,6 +422,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         {
                             dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
                             ClearProduct();
+                            dgwProduct.Hide();
                         }
 
                         txtBarcode.Focus();
@@ -426,20 +433,21 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         {
                             dt.Rows.Add(txtProductId.Text, txtProductName.Text, txtProductCategoryName.Text, txtGodownName.Text, txtBarcode.Text, cmbProductSizeNo.Text, txtPrintingName.Text, txtQuantity.Text);
                             ClearProduct();
+                            dgwProduct.Hide();
                         }
                         txtBarcode.Focus();
                     }
                 }
                 else
                 {
-                    btnSave.Focus();
+                    MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    dgwProduct.Hide();
+                    ClearProduct();
                 }
             }
             else
             {
-                MessageBox.Show("Low Stock❔👎", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                dgwProduct.Hide();
-                ClearProduct();
+                btnSave.Focus();
             }
         }
 
@@ -583,6 +591,36 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             }
         }
 
+        private void PrintBill()
+        {
+            if (MessageBox.Show("Do You Want To Print Bill", "SS SOFTWARE", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                DataSet ds = new DataSet();
+                DataTable dt = new DataTable();
+                cr.Load(Application.StartupPath + "/REPORTS/CRY_SALES.rpt");
+                TextObject InvoiceNo = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblInvoiceNo"];
+                InvoiceNo.Text = txtInvoiceNo.Text;
+                TextObject Date = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblDate"];
+                Date.Text = txtInvoiceDate.Text;
+                TextObject Name = (TextObject)cr.ReportDefinition.Sections["Section1"].ReportObjects["lblName"];
+                Name.Text = txtCustomerName.Text;
+                TextObject PCS = (TextObject)cr.ReportDefinition.Sections["Section4"].ReportObjects["lblPCS"];
+                PCS.Text = lblTotalQuantity.Text;
+                dt.Columns.Add("Product Name", typeof(string));
+                dt.Columns.Add("Size No", typeof(string));
+                dt.Columns.Add("PCS", typeof(int));
+
+                foreach (DataGridViewRow dgw in dgwItems.Rows)
+                {
+                    dt.Rows.Add(dgw.Cells[1].Value, dgw.Cells[5].Value, dgw.Cells[7].Value);
+                }
+                ds.Tables.Add(dt);
+                ds.WriteXmlSchema("Sales Bill.xml");
+                cr.SetDataSource(ds);
+                View_Daily_Reports.ShowDialog();
+            }
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             Control[] textBoxes = { txtInvoiceNo, txtInvoiceDate, txtCustomerName };
@@ -598,6 +636,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                         if (con.SaveData(query, validate))
                         {
                             SaveItems();
+                            PrintBill();
                         }
                         ClearAll();
                         AutoNumber();
@@ -752,31 +791,49 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     ad.Fill(d2s);
                     DataRow row = d2s.Tables[0].Rows[0];
                     bool itemExists = false;
-                    if (Convert.ToInt32(row[7].ToString()) > 1)
+                    if (Convert.ToInt32(row[7].ToString()) > 0)
                     {
-                        foreach (DataGridViewRow row2 in dgwItems.Rows)
+                        if (chkBarcode.Checked == true)
                         {
-                            if (row2.Cells[0].Value.ToString() == row[0].ToString() && row2.Cells[5].Value.ToString() == row[5].ToString() && d2s.Tables[0].Rows.Count == 1)
+                            foreach (DataGridViewRow row2 in dgwItems.Rows)
                             {
-                                double lastQty = double.Parse(row2.Cells[7].Value.ToString());
-                                double newQty = lastQty + 1;
-                                row2.Cells[7].Value = newQty.ToString();
-                                itemExists = true;
-                                ClearProduct();
-                                break;
-                            }
-                            else
-                            {
-                                itemExists = false;
-                            }
+                                if (row2.Cells[0].Value.ToString() == row[0].ToString() && row2.Cells[5].Value.ToString() == row[5].ToString() && d2s.Tables[0].Rows.Count == 1)
+                                {
+                                    double lastQty = double.Parse(row2.Cells[7].Value.ToString());
+                                    double newQty = lastQty + 1;
+                                    row2.Cells[7].Value = newQty.ToString();
+                                    itemExists = true;
+                                    ClearProduct();
+                                    break;
+                                }
+                                else
+                                {
+                                    itemExists = false;
+                                }
 
+                            }
+                            if (d2s.Tables[0].Rows.Count == 1 && itemExists == false)
+                            {
+                                dt.Rows.Add(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[6].ToString(), 1);
+                                txtBarcode.Focus();
+                                ClearProduct();
+                                dgwProduct.Hide();
+                            }
                         }
-                        if (d2s.Tables[0].Rows.Count == 1 && itemExists == false)
+                        else
                         {
-                            dt.Rows.Add(row[0].ToString(), row[1].ToString(), row[2].ToString(), row[3].ToString(), row[4].ToString(), row[5].ToString(), row[6].ToString(), 1);
-                            txtBarcode.Focus();
-                            ClearProduct();
-                            dgwProduct.Hide();
+                            if (d2s.Tables[0].Rows.Count == 1 && itemExists == false)
+                            {
+                                txtProductId.Text = row[0].ToString();
+                                txtProductName.Text = row[1].ToString();
+                                txtProductCategoryName.Text = row[2].ToString();
+                                txtGodownName.Text = row[3].ToString();
+                                txtBarcode.Text = row[4].ToString();
+                                cmbProductSizeNo.Text = row[5].ToString();
+                                getItems();
+                                txtQuantity.Focus();
+                                dgwProduct.Hide();
+                            }
                         }
                         if (d2s.Tables[0].Rows.Count > 1 && itemExists == false)
                         {
@@ -799,6 +856,8 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             catch
             {
                 MessageBox.Show("Data Not Found?", "SS SOFTWARE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dgwProduct.Hide();
+                ClearProduct();
             }
         }
 
@@ -814,6 +873,11 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
             {
 
             }
+        }
+
+        private void chkBarcode_CheckedChanged(object sender, EventArgs e)
+        {
+            txtBarcode.Focus();
         }
 
         private void FRM_SALES_KeyDown(object sender, KeyEventArgs e)

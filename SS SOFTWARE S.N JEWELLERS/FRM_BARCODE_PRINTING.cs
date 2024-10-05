@@ -102,9 +102,17 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                 SendKeys.Send("{TAB}");
             }
         }
+
         private void ClearAll()
         {
-            comp.Clear(new Control[] { txtProductId, txtProductName, txtPrintingName, cmbProductSizeNo, txtBarcode, txtPrintingName, txtQuantity });
+            comp.Clear(new Control[] { txtProductId, txtProductName, cmbProductSizeNo, txtBarcode, txtPrintingName, txtQuantity });
+            dgwDetails.Hide();
+            btnAdd.Enabled = true;
+        }
+
+        private void ClearAll2()
+        {
+            comp.Clear(new Control[] { cmbProductSizeNo, txtBarcode, txtPrintingName, txtQuantity });
             dgwDetails.Hide();
             btnAdd.Enabled = true;
         }
@@ -218,7 +226,7 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     if (!itemExists)
                     {
                         dgwItems.Rows.Add(cmbProductSizeNo.SelectedItem.ToString(), txtBarcode.Text, txtPrintingName.Text, txtQuantity.Text);
-                        ClearAll();
+                        ClearAll2();
                     }
                 }
                 else
@@ -227,7 +235,6 @@ namespace SS_SOFTWARE_S.N_JEWELLERS
                     {
                         dgwItems.Rows.Add(cmbProductSizeNo.SelectedItem.ToString(), txtBarcode.Text, txtPrintingName.Text, txtQuantity.Text);
                         ClearAll();
-                        btnPrint.Focus();
                     }
                 }
             }
